@@ -12,3 +12,8 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
+
+.active {
+  background-color: "#FF7F4D";
+  border: "solid 1px white";
+}

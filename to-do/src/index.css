@@ -36,6 +36,13 @@ h1 {
   line-height: 1.1;
 }
 
+.active {
+  background-color: "#FF7F4D";
+  width: "100px";
+  border: "solid 1px white";
+}
+
+
 
 @media (prefers-color-scheme: light) {
   :root {
