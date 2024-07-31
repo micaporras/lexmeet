@@ -60,8 +60,8 @@ const Todo = () => {
   return (
     <div className='container my-5'>
       <div className='mx-auto p-4' style={{width: "800px", backgroundColor: "transparent", border: "solid white 4px", borderRadius: "12px"}}>
-          <img className="mb-5" src="logo.png" alt="" style={{height:50, width:200}}/>
-          {/* <p className='text-white mb-5'>TODO APP</p> */}
+          <img className="mb-5" src="logo1.png" alt="" style={{height:50, width:220}}/>
+          {/* <p className='text-white mb-5'>TODO</p> */}
 
           <form className="d-flex mb-5" onSubmit={AddTask}>
             <input className="form-control me-2" placeholder="Add a Task" name='task'/>
@@ -72,7 +72,7 @@ const Todo = () => {
           {
             todos.map((todo, index) => {
               return (
-                <div key={index} className='rounded mt-2 p-2 d-flex' style={{backgroundColor: todo.completed ? "#FF7F4D" : "transparent", 
+                <div key={index} className='rounded mt-2 p-2 d-flex' style={{backgroundColor: todo.completed ? "#9D71BC" : "transparent", 
                 border: todo.completed ? "solid white 1px" : "solid white 2px",
                 color: "white"}}>
                   <div className='me-auto' style={{cursor: "pointer"}}>
