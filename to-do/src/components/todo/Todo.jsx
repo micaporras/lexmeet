@@ -290,7 +290,7 @@ const Todo = () => {
                 color: "white", display: "grid", gridTemplateColumns: "50% 50%"}}>
                   <div className='me-auto'>
                     <i className= {"me-2 h5 " + (todo.completed ? "bi bi-check-square-fill" : "bi bi-square")} style={{cursor: "pointer", 
-                    fontStyle: "normal", textTransform: "uppercase"}} onClick={() => changeTaskStatus(todo.task)}> {todo.task}</i>
+                    fontStyle: "normal", textTransform: "uppercase", textDecoration: todo.completed ? "line-through" : "none"}} onClick={() => changeTaskStatus(todo.task)}> {todo.task}</i>
                   </div>
 
 
@@ -349,7 +349,7 @@ const Todo = () => {
                 color: "white", display: "grid", gridTemplateColumns: "70% 30%"}}>
                   <div className='me-auto' >
                     <i className= {"me-2 h5 " + (todo.completed ? "bi bi-check-square-fill" : "bi bi-square")} 
-                    style={{cursor: "pointer",fontStyle: "normal", textTransform: "uppercase"}} onClick={() => changeTaskStatus(todo.task)}> {todo.task}</i>
+                    style={{cursor: "pointer",fontStyle: "normal", textTransform: "uppercase", textDecoration: todo.completed ? "line-through" : "none"}} onClick={() => changeTaskStatus(todo.task)}> {todo.task}</i>
                   </div>
                   
                   <div className="d-grid" style={{height: "100%", gridTemplateRows: "50% 50%", fontSize: "12px", textAlign: "left"}}>
