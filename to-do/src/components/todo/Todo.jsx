@@ -19,7 +19,8 @@ const Todo = () => {
   }
 
   const [todos, setTodos] = useState(getStoredTodos())
-  const [isCompleted, setCompleted] = useState(false);
+  const [isCompleted, setCompleted] = useState(false)
+  const [completedTodos, setCompletedTodos] = useState([])
 
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos))
@@ -29,30 +30,29 @@ const Todo = () => {
     event.preventDefault()
 
     let task = event.target.task.value
+    let dateCreated = new Date()
+    let day = dateCreated.getDate()
+    let month = dateCreated.getMonth()
+    let year = dateCreated.getFullYear()
+
+    let monthNames = [
+      "January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ];
+
+    month = monthNames[month]
+    let createdOn = month + ' ' + day + ', ' + year
 
     if (!task) {
         alert("Please input a task")
         return
     }
 
-    setTodos([...todos, {task:task, completed: false}])
+    setTodos([...todos, {task:task, completed: false, createdOn}])
 
-    alert("New task added")
+    alert("New task added on " + createdOn)
 
     event.target.reset()
-
-    return [
-    <div className="modal fade text-white" tabindex="-1">
-                      <div className="modal-dialog position-fixed bottom-1 end-0 p-4">
-                        <div className="modal-content" style={{backgroundColor: "#9D71BC"}}>
-                          <div className="modal-body" style={{backgroundColor: "#9D71BC", borderRadius: "10px", width: "300px"}}>
-                            Task Deleted
-                          </div>
-                        </div>
-                      </div>
-    </div>
-    ]
-    
     
   }
 
@@ -79,11 +79,6 @@ const Todo = () => {
     
   }
 
-  function changeBookmarkStatus(index) {
-    let newTodos = [...todos]
-    newTodos[index].bookmarked = !newTodos[index].bookmarked
-    setTodos(newTodos)
-  }
 
   function deleteTask(index) {
     let newTodos = [...todos]
@@ -102,9 +97,10 @@ const Todo = () => {
           <div>
             <nav className="navbar navbar-expand-lg mb-3">
             <div className="d-flex">
-              <div className="navbar-brand text-white me-0" style={{width: "435px", textAlign: "left", fontWeight: "bold", borderBottom: "solid white 1px"}}>TODO LIST</div>
+              <div className="navbar-brand text-white me-0 p-1" style={{ width: "380px", textAlign: "center", fontWeight: "bold", 
+                border: "solid white 1px", borderTopRightRadius: "10px", borderBottom: "transparent"}}>TODO LIST</div>
               <div className="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul className="nav nav-tabs me-3">
+              <ul className="nav nav-tabs me-5" style={{width: "240px", justifyContent: "start"}}>
                   <li className={`nav-item ${isCompleted=== false && 'active'}`} onClick={() => setCompleted(false)}>
                     <a className="nav-link text-white" aria-current="page" href="/">All</a>
                   </li>
@@ -112,31 +108,26 @@ const Todo = () => {
                     <a className="nav-link text-white">Completed</a>
                   </li>
               </ul>
-                <button className="btn btn-outline-light"><i className="bi bi-bookmarks-fill"></i></button>
               </div>
             </div>
             </nav>
           <form className="d-flex mb-4" onSubmit={AddTask} style={{width: "100%"}}>
               <input className="form-control me-2 " placeholder="Add a Task" name='task'/>
               <button className="btn btn-outline-light me-2 p-1" style={{width: "60px"}} type="submit"><i className="bi bi-check-lg h4"></i></button>
-              {/* <button className="btn btn-outline-light"><i className="bi bi-bookmarks-fill"></i></button> */}
           </form>
 
           {
             todos.map((todo, index) => {
               return (
-                <div key={index} className='rounded mt-2 p-2 d-flex' style={{backgroundColor: todo.completed ? "#9D71BC" : "transparent", 
+                <div key={index} className='rounded mt-2 p-2' style={{backgroundColor: todo.completed ? "#9D71BC" : "transparent", 
                 border: todo.completed ? "solid #9D71BC 1px" : "solid white 2px",
-                color: "white"}}>
+                color: "white", display: "grid", gridTemplateColumns: "50% 50%"}}>
                   <div className='me-auto' style={{cursor: "pointer"}}>
-                    <i className= {"me-2 h5 " + (todo.completed ? "bi bi-check-square-fill" : "bi bi-square")} style={{cursor: "pointer"}}
-                    onClick={() => changeTaskStatus(index)}></i>
-                    {todo.task}
+                    <i className= {"me-2 h5 " + (todo.completed ? "bi bi-check-square-fill" : "bi bi-square")} style={{cursor: "pointer", 
+                    fontStyle: "normal", textTransform: "uppercase"}} onClick={() => changeTaskStatus(index)}> {todo.task}</i>
                   </div>
-      
-                  <div>
-                    <i className= {"me-2 h5 " + (todo.bookmarked ? "bi bi-bookmark-fill me-2 h5" : "bi bi-bookmark me-2 h5")} style={{cursor: "pointer"}}
-                    onClick={() => changeBookmarkStatus(index)}></i>
+                  
+                  <div style={{textAlign: "end"}}>
                     <i className="bi bi-pencil-square me-2 h5" style={{cursor: "pointer"}}></i>
                     <i className="bi bi-trash3 h5" style={{cursor: "pointer"}} 
                     data-bs-toggle="modal" data-bs-target="#deleteModal" onClick={() => deleteTask(index)}></i>
@@ -151,6 +142,9 @@ const Todo = () => {
                       </div>
                     </div>
 
+                  </div>
+                  <div className="d-flex" style={{marginLeft: "7%", fontSize: "12px"}}>
+                    {"Created On: " + todo.createdOn}
                   </div>
                 </div>
               )
