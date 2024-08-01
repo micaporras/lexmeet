@@ -34,6 +34,8 @@ const Todo = () => {
   const [todos, setTodos] = useState(getStoredTodos())
   const [isCompleted, setCompleted] = useState(false)
   const [completedTodos, setCompletedTodos] = useState(getStoredCompletedTodos())
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
+  const [selectedTask, setSelectedTask] = useState(null)
 
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos))
@@ -173,10 +175,17 @@ const Todo = () => {
     
   }
 
-  function deleteTask(task) {
-    let newTodos = todos.filter(t => t.task !== task);
-    setTodos(newTodos);
+  function confirmDelete(task) {
+    setSelectedTask(task);
+    setShowDeleteModal(true);
   }
+
+  function handleDeleteConfirmed() {
+    let newTodos = todos.filter(t => t.task !== selectedTask);
+    setTodos(newTodos);
+    setShowDeleteModal(false);
+    setSelectedTask(null);
+}
 
   function deleteCompleted(task) {
     let newCompletedTodos = completedTodos.filter(t => t.task !== task);
@@ -227,21 +236,26 @@ const Todo = () => {
                     <i className= {"me-2 h5 " + (todo.completed ? "bi bi-check-square-fill" : "bi bi-square")} style={{cursor: "pointer", 
                     fontStyle: "normal", textTransform: "uppercase"}} onClick={() => changeTaskStatus(todo.task)}> {todo.task}</i>
                   </div>
-                  
+
+
                   <div style={{textAlign: "end"}}>
                     <i className="bi bi-pencil-square me-2 h5" style={{cursor: "pointer"}}></i>
                     <i className="bi bi-trash3 h5 me-2" style={{cursor: "pointer"}} 
-                    data-bs-toggle="modal" data-bs-target="#deleteModal" onClick={() => deleteTask(todo.task)}></i>
+                    onClick={() => confirmDelete(todo.task)}></i>
 
-                    <div className="modal fade text-white" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-                      <div className="modal-dialog position-fixed bottom-1 end-0 p-4">
-                        <div className="modal-content" style={{backgroundColor: "#9D71BC"}}>
-                          <div className="modal-body" style={{backgroundColor: "#9D71BC", borderRadius: "10px", width: "300px", textAlign: "center"}}>
-                            Task Deleted
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    
+                  <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)} centered>
+                  <Modal.Header closeButton>
+                      <Modal.Title>Delete Task</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                      Are you sure you want to delete this task?
+                  </Modal.Body>
+                  <Modal.Footer>
+                      <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>Close</Button>
+                      <Button style={{backgroundColor: "#5E1B89", border: "transparent"}} data-bs-toggle="modal" data-bs-target="#deleteModal" onClick={handleDeleteConfirmed}>Delete</Button>
+                  </Modal.Footer>
+                  </Modal>
 
                   </div>
                   <div className="d-flex" style={{marginLeft: "7%", fontSize: "12px"}}>
@@ -290,7 +304,7 @@ const Todo = () => {
                       <h4 classNAme="modal-title fs-5" id="exampleModalLabel">Delete All Tasks</h4>
                           <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
-                      <div className="modal-body">
+                      <div className="modal-body text-start">
                         All the tasks will be deleted. Confirm?
                       </div>
                         <div class="modal-footer">
