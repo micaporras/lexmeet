@@ -13,17 +13,6 @@ function App() {
       <Todo />
       
       </div>
-
-      <div className='position-relative bottom-0 mt-4 text-white text-center'> 
-        <a className='text-white me-2' href="https://www.facebook.com/LexMeet" target="_blank"><i className="bi bi-facebook h5"></i></a>
-        <a className='text-white me-2' href="https://x.com/LexMeet" target="_blank"><i className="bi bi-twitter-x h5"></i></a>
-        <a className='text-white me-2' href="https://www.linkedin.com/company/13284634/" target="_blank"><i className="bi bi-linkedin h5"></i></a>
-        <a className='text-white me-2' href="https://www.instagram.com/lexmeet.legal.help/?hl=en" target="_blank"><i className="bi bi-instagram h5"></i></a>
-        <a className='text-white me-2' href="https://www.youtube.com/results?search_query=lexmeet" target="_blank"><i className="bi bi-youtube h5"></i></a>
-        <div className='mt-2'>
-          All Rights Reserved. © 2016 LexMeet, Inc.
-        </div> 
-      </div>
     
     </div>
   )
