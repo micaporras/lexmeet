@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react';
 import './Todo.css';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 
 
@@ -36,6 +39,9 @@ const Todo = () => {
   const [completedTodos, setCompletedTodos] = useState(getStoredCompletedTodos())
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [selectedTask, setSelectedTask] = useState(null)
+  const [showEditModal, setShowEditModal] = useState(false)
+  const [editTask, setEditTask] = useState('')
+  const [editTaskOriginal, setEditTaskOriginal] = useState(null)
 
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos))
@@ -56,23 +62,23 @@ const Todo = () => {
     let hour = dateCreated.getHours()
     let minute = dateCreated.getMinutes()
 
-    let detectAmPm = hour >= 12 ? 'PM' : 'AM';
-    hour = hour % 12;
-    hour = hour? hour : 12;
+    let detectAmPm = hour >= 12 ? 'PM' : 'AM'
+    hour = hour % 12
+    hour = hour? hour : 12
 
-    minute = minute < 10 ? '0' + minute : minute;
+    minute = minute < 10 ? '0' + minute : minute
 
     month = monthNames[month]
     let createdOn = month + ' ' + day + ', ' + year + ' ' + hour + ':' + minute + detectAmPm
 
     if (!task) {
-        alert("Please input a task")
+        toast.error("Please input a task")
         return
     }
 
     setTodos([...todos, {task:task, completed: false, createdOn, completedOn: ""}])
 
-    alert("New task added on " + createdOn)
+    toast.success("New task added on " + createdOn)
 
     event.target.reset()
     
@@ -132,16 +138,14 @@ const Todo = () => {
 
     for (let i = 0; i < newTodos.length; i++) {
         if (!newTodos[i].completed) {
-            newTodos[i].completed = true;
-            newTodos[i].completedOn = completedOn;
+            newTodos[i].completed = true
+            newTodos[i].completedOn = completedOn
         }
     }
 
-    setTodos(newTodos);
-    setCompletedTodos(newTodos.filter(todo => todo.completed));
+    setTodos(newTodos)
+    setCompletedTodos(newTodos.filter(todo => todo.completed))
   }
-
-
 
   function handleCompleted(task) {
     let dateCompleted = new Date()
@@ -153,15 +157,15 @@ const Todo = () => {
 
     monthCompleted = monthNames[monthCompleted]
 
-    let detectAmPm = hourCompleted >= 12 ? 'PM' : 'AM';
-    hourCompleted = hourCompleted % 12;
-    hourCompleted = hourCompleted ? hourCompleted : 12;
+    let detectAmPm = hourCompleted >= 12 ? 'PM' : 'AM'
+    hourCompleted = hourCompleted % 12
+    hourCompleted = hourCompleted ? hourCompleted : 12
 
-    minuteCompleted = minuteCompleted < 10 ? '0' + minuteCompleted : minuteCompleted;
+    minuteCompleted = minuteCompleted < 10 ? '0' + minuteCompleted : minuteCompleted
 
     let completedOn = monthCompleted + ' ' + dayCompleted + ', ' + yearCompleted + ' ' + hourCompleted + ':' + minuteCompleted + detectAmPm
-    let newCompletedTodos = [...completedTodos];
-    let todo = todos.find(t => t.task === task);
+    let newCompletedTodos = [...completedTodos]
+    let todo = todos.find(t => t.task === task)
     
     if (todo) {
       let filteredItem = {
@@ -169,42 +173,70 @@ const Todo = () => {
         completedOn: completedOn
       };
       
-      newCompletedTodos.push(filteredItem);
-      setCompletedTodos(newCompletedTodos);
+      newCompletedTodos.push(filteredItem)
+      setCompletedTodos(newCompletedTodos)
     }
     
   }
 
+  function openEditModal(task) {
+    setEditTask(task)
+    setEditTaskOriginal(task)
+    setShowEditModal(true)
+  }
+
+  function handleSaveTask() {
+    let updatedTodos = todos.map(todo => 
+        todo.task === editTaskOriginal.task ? { ...todo, task: editTask.task } : todo
+    );
+    setTodos(updatedTodos)
+
+    let updatedCompletedTodos = completedTodos.map(todo => 
+        todo.task === editTaskOriginal.task ? { ...todo, task: editTask.task } : todo
+    );
+    setCompletedTodos(updatedCompletedTodos)
+
+    setShowEditModal(false)
+    setEditTask('')
+    setEditTaskOriginal(null)
+    toast.success("Task Updated")
+}
+
+
   function confirmDelete(task) {
-    setSelectedTask(task);
-    setShowDeleteModal(true);
+    setSelectedTask(task)
+    setShowDeleteModal(true)
   }
 
   function handleDeleteConfirmed() {
-    let newTodos = todos.filter(t => t.task !== selectedTask);
+    let newTodos = todos.filter(t => t.task !== selectedTask)
+    deleteCompleted(selectedTask)
     setTodos(newTodos);
-    setShowDeleteModal(false);
-    setSelectedTask(null);
+    setShowDeleteModal(false)
+    setSelectedTask(null)
+    toast.success("Task Deleted")
 }
 
   function deleteCompleted(task) {
-    let newCompletedTodos = completedTodos.filter(t => t.task !== task);
-    setCompletedTodos(newCompletedTodos);
+    let newCompletedTodos = completedTodos.filter(t => t.task !== task)
+    setCompletedTodos(newCompletedTodos)
   }
 
   function deleteAll() {
-    setTodos([]);
-    deleteAllCompleted();
+    setTodos([])
+    deleteAllCompleted()
+    toast.success("All tasks deleted")
   }
 
   function deleteAllCompleted() {
-    setCompletedTodos([]);
+    setCompletedTodos([])
   }
 
 
   
   return (
           <div>
+            <ToastContainer />
             <nav className="navbar navbar-expand-lg mb-3">
             <div className="d-flex">
               <div className="navbar-brand text-white me-0 p-1" style={{ width: "380px", textAlign: "center", fontWeight: "bold", 
@@ -239,23 +271,42 @@ const Todo = () => {
 
 
                   <div style={{textAlign: "end"}}>
-                    <i className="bi bi-pencil-square me-2 h5" style={{cursor: "pointer"}}></i>
+                    <i className="bi bi-pencil-square me-2 h5" style={{cursor: "pointer"}}  onClick={() => openEditModal(todo)}></i>
+
+                    <Modal show={showEditModal} onHide={() => setShowEditModal(false)} centered>
+                      <Modal.Header closeButton>
+                          <Modal.Title>Update Task</Modal.Title>
+                      </Modal.Header>
+                      <Modal.Body>
+                          <input 
+                              type="text" 
+                              className="form-control" 
+                              value={editTask.task} 
+                              onChange={(e) => setEditTask({ ...editTask, task: e.target.value })} 
+                          />
+                      </Modal.Body>
+                      <Modal.Footer>
+                          <Button variant="secondary" onClick={() => setShowEditModal(false)}>Close</Button>
+                          <Button style={{backgroundColor: "#5E1B89", border: "transparent"}} onClick={handleSaveTask}>Save</Button>
+                      </Modal.Footer>
+                    </Modal>
+
                     <i className="bi bi-trash3 h5 me-2" style={{cursor: "pointer"}} 
                     onClick={() => confirmDelete(todo.task)}></i>
 
                     
-                  <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)} centered>
-                  <Modal.Header closeButton>
-                      <Modal.Title>Delete Task</Modal.Title>
-                  </Modal.Header>
-                  <Modal.Body>
-                      Are you sure you want to delete this task?
-                  </Modal.Body>
-                  <Modal.Footer>
-                      <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>Close</Button>
-                      <Button style={{backgroundColor: "#5E1B89", border: "transparent"}} data-bs-toggle="modal" data-bs-target="#deleteModal" onClick={handleDeleteConfirmed}>Delete</Button>
-                  </Modal.Footer>
-                  </Modal>
+                    <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)} centered>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Delete Task</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        Are you sure you want to delete this task?
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>Close</Button>
+                        <Button style={{backgroundColor: "#5E1B89", border: "transparent"}} data-bs-toggle="modal" data-bs-target="#deleteModal" onClick={handleDeleteConfirmed}>Delete</Button>
+                    </Modal.Footer>
+                    </Modal>
 
                   </div>
                   <div className="d-flex" style={{marginLeft: "7%", fontSize: "12px"}}>
@@ -305,7 +356,7 @@ const Todo = () => {
                           <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
                       <div className="modal-body text-start">
-                        All the tasks will be deleted. Confirm?
+                        Are you sure you want to delete all tasks?
                       </div>
                         <div class="modal-footer">
                         <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
