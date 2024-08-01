@@ -72,13 +72,17 @@ const Todo = () => {
     let createdOn = month + ' ' + day + ', ' + year + ' ' + hour + ':' + minute + detectAmPm
 
     if (!task) {
-        toast.error("Please input a task")
+        toast.error("Please input a task", {
+          icon: <i className="bi bi-exclamation-circle-fill h4" style={{color: "#F4512C"}}></i>,
+        })
         return
     }
 
     setTodos([...todos, {task:task, completed: false, createdOn, completedOn: ""}])
 
-    toast.success("New task added on " + createdOn)
+    toast.success("New task added on " + createdOn, {
+      icon: <i className="bi bi-emoji-laughing-fill h4" style={{color: "#5E1B89"}}></i>
+    })
 
     event.target.reset()
     
@@ -145,7 +149,9 @@ const Todo = () => {
 
     setTodos(newTodos)
     setCompletedTodos(newTodos.filter(todo => todo.completed))
-    toast.success("All tasks are marked done")
+    toast.success("All tasks are marked done", {
+      icon: <i className="bi bi-clipboard-check-fill h3" style={{color: "#5E1B89"}}></i>
+    })
   }
 
   function handleCompleted(task) {
@@ -200,7 +206,9 @@ const Todo = () => {
     setShowEditModal(false)
     setEditTask('')
     setEditTaskOriginal(null)
-    toast.success("Task Updated")
+    toast.success("Task Updated", {
+      icon: <i className="bi bi-hand-thumbs-up-fill h3" style={{color: "#5E1B89"}}></i>
+    })
 }
 
 
@@ -215,7 +223,9 @@ const Todo = () => {
     setTodos(newTodos);
     setShowDeleteModal(false)
     setSelectedTask(null)
-    toast.success("Task Deleted")
+    toast.success("Task Deleted", {
+      icon: <i className="bi bi-eraser-fill h3" style={{color: "#5E1B89"}}></i>
+    })
 }
 
   function deleteCompleted(task) {
@@ -226,7 +236,9 @@ const Todo = () => {
   function deleteAll() {
     setTodos([])
     deleteAllCompleted()
-    toast.success("All tasks deleted")
+    toast.success("All tasks deleted", {
+      icon: <i className="bi bi-emoji-grimace h3" style={{color: "#5E1B89"}}></i>
+    })
   }
 
   function deleteAllCompleted() {
@@ -259,6 +271,17 @@ const Todo = () => {
                 <button className="btn btn-outline-light me-2 p-1" style={{width: "60px"}} type="submit"><i className="bi bi-check-lg h4"></i></button>
             </form>
 
+            {
+              isCompleted === false && todos.length === 0 && (
+                <div className="text-center mt-4" style={{color: "rgba(245, 245, 245, 0.822)", textTransform: "uppercase"}}>Todo list is empty</div>
+              )
+            }
+
+            {
+              isCompleted === true && completedTodos.length === 0 && (
+                <div className="text-center mt-4" style={{color: "rgba(245, 245, 245, 0.822)", textTransform: "uppercase"}}>No completed tasks yet</div>
+              )
+            }
           {
             isCompleted === false && todos.map((todo, index) => {
               return (
@@ -367,6 +390,7 @@ const Todo = () => {
                   </div>
               </div>
             </div>
+
           </div>
 
           

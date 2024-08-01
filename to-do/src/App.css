@@ -13,8 +13,7 @@ body {
   background-attachment: fixed;
 }
 
-.active {
-  background-color: "#FF7F4D";
-  border: "solid 1px white";
-}
 
+i:hover {
+  color: #5E1B89;
+}
