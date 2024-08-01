@@ -1,6 +1,6 @@
 import './App.css'
 import Todo from './components/todo/Todo'
-import TodoCompleted from './components/todo/TodoCompleted'
+
 
 
 function App() {

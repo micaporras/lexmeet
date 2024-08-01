@@ -77,58 +77,69 @@ const Todo = () => {
   }
 
   function changeTaskStatus(task) {
-    let newTodos = [...todos];
-    let newCompletedTodos = [...completedTodos];
+    let newTodos = [...todos]
+    let newCompletedTodos = [...completedTodos]
 
-    let todo = newTodos.find(t => t.task === task);
+    let todo = newTodos.find(t => t.task === task)
     if (todo) {
-        todo.completed = !todo.completed;
+        todo.completed = !todo.completed
         setTodos(newTodos);
 
         if (todo.completed) {
             handleCompleted(task);
         } else {
-            let completedTodoIndex = newCompletedTodos.findIndex(t => t.task === task);
+            let completedTodoIndex = newCompletedTodos.findIndex(t => t.task === task)
             if (completedTodoIndex !== -1) {
-                newCompletedTodos.splice(completedTodoIndex, 1);
-                setCompletedTodos(newCompletedTodos);
+                newCompletedTodos.splice(completedTodoIndex, 1)
+                setCompletedTodos(newCompletedTodos)
             }
         }
     } else {
-        let completedTodo = newCompletedTodos.find(t => t.task === task);
+        let completedTodo = newCompletedTodos.find(t => t.task === task)
         if (completedTodo) {
-            completedTodo.completed = !completedTodo.completed;
-            newTodos.push(completedTodo);
-            setTodos(newTodos);
+            completedTodo.completed = !completedTodo.completed
+            newTodos.push(completedTodo)
+            setTodos(newTodos)
 
-            let completedTodoIndex = newCompletedTodos.findIndex(t => t.task === task);
+            let completedTodoIndex = newCompletedTodos.findIndex(t => t.task === task)
             if (completedTodoIndex !== -1) {
-                newCompletedTodos.splice(completedTodoIndex, 1);
-                setCompletedTodos(newCompletedTodos);
+                newCompletedTodos.splice(completedTodoIndex, 1)
+                setCompletedTodos(newCompletedTodos)
             }
         }
     }
-}
-
-
+  }
 
   function checkAll() {
     let newTodos = [...todos]
-    let index = 0
-    let checkValue = newTodos.length
-    while (checkValue >= 0) {
-      index += 1
-      let check = newTodos[index].completed
-      let check1 = newTodos[0].completed
-      if (check === false || check1 === false) {
-        newTodos[index].completed = true
-        newTodos[0].completed = true
-      }
-      setTodos(newTodos)
-      setCompletedTodos(newTodos)
+
+    let dateCompleted = new Date()
+    let dayCompleted = dateCompleted.getDate()
+    let monthCompleted = dateCompleted.getMonth()
+    let yearCompleted = dateCompleted.getFullYear()
+    let hourCompleted = dateCompleted.getHours()
+    let minuteCompleted = dateCompleted.getMinutes()
+
+    monthCompleted = monthNames[monthCompleted]
+    let detectAmPm = hourCompleted >= 12 ? 'PM' : 'AM'
+    hourCompleted = hourCompleted % 12
+    hourCompleted = hourCompleted ? hourCompleted : 12
+    minuteCompleted = minuteCompleted < 10 ? '0' + minuteCompleted : minuteCompleted
+
+    let completedOn = monthCompleted + ' ' + dayCompleted + ', ' + yearCompleted + ' ' + hourCompleted + ':' + minuteCompleted + detectAmPm
+
+    for (let i = 0; i < newTodos.length; i++) {
+        if (!newTodos[i].completed) {
+            newTodos[i].completed = true;
+            newTodos[i].completedOn = completedOn;
+        }
     }
-    
+
+    setTodos(newTodos);
+    setCompletedTodos(newTodos.filter(todo => todo.completed));
   }
+
+
 
   function handleCompleted(task) {
     let dateCompleted = new Date()
@@ -212,14 +223,14 @@ const Todo = () => {
                 <div key={index} className='rounded mt-2 p-2' style={{backgroundColor: todo.completed ? "#9D71BC" : "transparent", 
                 border: todo.completed ? "solid #9D71BC 1px" : "solid white 2px",
                 color: "white", display: "grid", gridTemplateColumns: "50% 50%"}}>
-                  <div className='me-auto' style={{cursor: "pointer"}}>
+                  <div className='me-auto'>
                     <i className= {"me-2 h5 " + (todo.completed ? "bi bi-check-square-fill" : "bi bi-square")} style={{cursor: "pointer", 
                     fontStyle: "normal", textTransform: "uppercase"}} onClick={() => changeTaskStatus(todo.task)}> {todo.task}</i>
                   </div>
                   
                   <div style={{textAlign: "end"}}>
                     <i className="bi bi-pencil-square me-2 h5" style={{cursor: "pointer"}}></i>
-                    <i className="bi bi-trash3 h5" style={{cursor: "pointer"}} 
+                    <i className="bi bi-trash3 h5 me-2" style={{cursor: "pointer"}} 
                     data-bs-toggle="modal" data-bs-target="#deleteModal" onClick={() => deleteTask(todo.task)}></i>
 
                     <div className="modal fade text-white" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
@@ -247,8 +258,9 @@ const Todo = () => {
                 <div key={index} className='rounded mt-2 p-2' style={{backgroundColor: todo.completed ? "#9D71BC" : "transparent", 
                 border: todo.completed ? "solid #9D71BC 1px" : "solid white 2px",
                 color: "white", display: "grid", gridTemplateColumns: "70% 30%"}}>
-                  <div className='me-auto' style={{fontStyle: "normal", textTransform: "uppercase"}} onClick={() => changeTaskStatus(todo.task)}>
-                    <i className= {"me-2 h5 " + (todo.completed ? "bi bi-check-square-fill" : "bi bi-square")} ></i>{todo.task}
+                  <div className='me-auto' >
+                    <i className= {"me-2 h5 " + (todo.completed ? "bi bi-check-square-fill" : "bi bi-square")} 
+                    style={{cursor: "pointer",fontStyle: "normal", textTransform: "uppercase"}} onClick={() => changeTaskStatus(todo.task)}> {todo.task}</i>
                   </div>
                   
                   <div className="d-grid" style={{height: "100%", gridTemplateRows: "50% 50%", fontSize: "12px", textAlign: "left"}}>
