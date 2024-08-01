@@ -263,7 +263,7 @@ const Todo = () => {
               <div className="collapse navbar-collapse" id="navbarSupportedContent" style={{width: "100%", justifyContent: "start"}}>
               <ul className="nav nav-tabs" >
                   <li className={`nav-item ${isCompleted=== false && 'active'}`} onClick={() => setCompleted(false)}>
-                    <a className="nav-link text-white" aria-current="page" href="/">All</a>
+                    <a className="nav-link text-white" aria-current="page">All</a>
                   </li>
                   <li className={`nav-item ${isCompleted=== true && 'active'}`} onClick={() => setCompleted(true)}>
                     <a className="nav-link text-white">Completed</a>
