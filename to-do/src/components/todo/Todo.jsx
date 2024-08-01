@@ -35,13 +35,18 @@ const Todo = () => {
   }
 
   const [todos, setTodos] = useState(getStoredTodos())
+  const [showAddModal, setShowAddModal] = useState(false)
   const [isCompleted, setCompleted] = useState(false)
   const [completedTodos, setCompletedTodos] = useState(getStoredCompletedTodos())
+ 
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [selectedTask, setSelectedTask] = useState(null)
+  
   const [showEditModal, setShowEditModal] = useState(false)
+  
   const [editTask, setEditTask] = useState('')
   const [editTaskOriginal, setEditTaskOriginal] = useState(null)
+
 
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos))
@@ -85,6 +90,7 @@ const Todo = () => {
     })
 
     event.target.reset()
+    setShowAddModal(false)
     
   }
 
@@ -250,12 +256,12 @@ const Todo = () => {
   return (
           <div>
             <ToastContainer />
-            <nav className="navbar navbar-expand-lg mb-3">
-            <div className="d-flex">
-              <div className="navbar-brand text-white me-0 p-1" style={{ width: "380px", textAlign: "center", fontWeight: "bold", 
+            <nav className="navbar navbar-expand-lg mb-4" >
+            <div style={{display: "grid", gridTemplateColumns: "100% 100%"}}>
+              <div className="navbar-brand text-white me-0 p-1" style={{ width: "100%", textAlign: "center", fontWeight: "bold", 
                 border: "solid white 1px", borderTopRightRadius: "10px", borderBottom: "transparent"}}>TODO LIST</div>
-              <div className="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul className="nav nav-tabs me-5" style={{width: "350px", justifyContent: "start"}}>
+              <div className="collapse navbar-collapse" id="navbarSupportedContent" style={{width: "100%", justifyContent: "start"}}>
+              <ul className="nav nav-tabs" >
                   <li className={`nav-item ${isCompleted=== false && 'active'}`} onClick={() => setCompleted(false)}>
                     <a className="nav-link text-white" aria-current="page" href="/">All</a>
                   </li>
@@ -263,13 +269,33 @@ const Todo = () => {
                     <a className="nav-link text-white">Completed</a>
                   </li>
               </ul>
+                <div style={{width: "20%", justifyContent: "end"}}>
+                <button className="btn btn-outline-light me-2 p-1" style={{width: "60px"}} 
+                onClick={() => setShowAddModal(true)}><i className="bi bi-plus h2"></i></button>
+                </div>
+                <Modal show={showAddModal} onHide={() => setShowAddModal(false)} centered>
+                      <Modal.Header closeButton>
+                        <Modal.Title>Create Task</Modal.Title>
+                      </Modal.Header>
+                      <Modal.Body>
+                        <form onSubmit={AddTask}>
+                        <input
+                          type="text"
+                          className="form-control"
+                          name='task'
+                          placeholder="Enter a task here"
+                        />
+                        <Modal.Footer className='mt-3'>
+                            <Button variant="secondary" onClick={() => setShowAddModal(false)}>Close</Button>
+                            <Button className="p-2" type="submit" style={{backgroundColor: "#5E1B89", border: "transparent", width: "70px"}}>Add</Button>
+                        </Modal.Footer>
+                        </form>
+                      </Modal.Body>
+
+                </Modal>
               </div>
             </div>
             </nav>
-            <form className="d-flex mb-4" onSubmit={AddTask} style={{width: "100%"}}>
-                <input className="form-control me-2 " placeholder="Add a Task" name='task'/>
-                <button className="btn btn-outline-light me-2 p-1" style={{width: "60px"}} type="submit"><i className="bi bi-check-lg h4"></i></button>
-            </form>
 
             {
               isCompleted === false && todos.length === 0 && (
@@ -286,7 +312,7 @@ const Todo = () => {
             isCompleted === false && todos.map((todo, index) => {
               return (
                 <div key={index} className='rounded mt-2 p-2' style={{backgroundColor: todo.completed ? "#9D71BC" : "transparent", 
-                border: todo.completed ? "solid #9D71BC 1px" : "solid white 2px",
+                border: todo.completed ? "solid white 1px" : "solid white 2px",
                 color: "white", display: "grid", gridTemplateColumns: "50% 50%"}}>
                   <div className='me-auto'>
                     <i className= {"me-2 h5 " + (todo.completed ? "bi bi-check-square-fill" : "bi bi-square")} style={{cursor: "pointer", 
@@ -345,7 +371,7 @@ const Todo = () => {
             isCompleted === true && completedTodos.map((todo, index) => {
               return (
                 <div key={index} className='rounded mt-2 p-2' style={{backgroundColor: todo.completed ? "#9D71BC" : "transparent", 
-                border: todo.completed ? "solid #9D71BC 1px" : "solid white 2px",
+                border: todo.completed ? "solid white 1px" : "solid white 2px",
                 color: "white", display: "grid", gridTemplateColumns: "70% 30%"}}>
                   <div className='me-auto' >
                     <i className= {"me-2 h5 " + (todo.completed ? "bi bi-check-square-fill" : "bi bi-square")} 
