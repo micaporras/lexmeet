@@ -13,11 +13,10 @@
 
 .active {
     background-color: #FF7F4D;
-    border: solid 1px white;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
 }
 
 i:hover {
-    color: #9D71BC;
+    color: #5E1B89;
 }
