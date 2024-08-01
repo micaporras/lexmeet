@@ -145,6 +145,7 @@ const Todo = () => {
 
     setTodos(newTodos)
     setCompletedTodos(newTodos.filter(todo => todo.completed))
+    toast.success("All tasks are marked done")
   }
 
   function handleCompleted(task) {
