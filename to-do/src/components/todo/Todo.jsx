@@ -321,7 +321,7 @@ const Todo = () => {
       {
         isCompleted === false && todos.map((todo, index) => {
           return (
-            <div key={index} className='rounded mt-2 p-1' style={{backgroundColor: todo.completed ? "#9D71BC" : "transparent", 
+            <div key={index} className='rounded mt-2 p-1' style={{backgroundColor: todo.completed ? "#5E1B89" : "transparent", 
             border: todo.completed ? "solid white 1px" : "solid white 2px",
             color: "white", display: "grid", gridTemplateColumns: "80% 20%"}}>
 
@@ -359,7 +359,7 @@ const Todo = () => {
       {
         isCompleted === true && completedTodos.map((todo, index) => {
           return (
-            <div key={index} className='rounded m-2 p-1 row text-white' style={{backgroundColor: todo.completed ? "#9D71BC" : "transparent", 
+            <div key={index} className='rounded m-2 p-1 row text-white' style={{backgroundColor: todo.completed ? "#5E1B89" : "transparent", 
             border: todo.completed ? "solid white 1px" : "solid white 2px", textAlign: "left"}}>
 
               <div className='me-auto col-sm-8 text-uppercase letter-spacing' style={{alignContent: "center"}}>
@@ -401,12 +401,12 @@ const Todo = () => {
         </Modal.Body>
       </Modal>
 
-      <Modal show={showEditModal} onHide={() => setShowEditModal(false)} centered>
+      <Modal className="text-secondary"show={showEditModal} onHide={() => setShowEditModal(false)} centered>
         <Modal.Header closeButton>
-          <Modal.Title className="text-secondary h3">Update Task</Modal.Title>
+          <Modal.Title >Update Task</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <input type="text" className="form-control" value={editTask.task} 
+          <input type="text" className="form-control text-secondary" value={editTask.task} 
           onChange={(e) => setEditTask({ ...editTask, task: e.target.value })} />
         </Modal.Body>
         <Modal.Footer>
