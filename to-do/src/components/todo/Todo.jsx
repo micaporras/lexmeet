@@ -329,7 +329,7 @@ const Todo = () => {
         isCompleted === true && completedTodos.length === 0 && (
         <div className="text-center mt-4" style={{color: "rgba(245, 245, 245, 0.822)", 
         textTransform: "uppercase", minHeight: "200px", alignContent: "center"}}>
-          No completed tasks yet
+          No completed task yet
         </div>)
       }
 
