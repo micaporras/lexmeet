@@ -155,9 +155,18 @@ const Todo = () => {
 
     setTodos(newTodos)
     setCompletedTodos(newTodos.filter(todo => todo.completed))
-    toast.success("All tasks are marked done", {
-    icon: <i className="bi bi-clipboard-check-fill h3" style={{color: "#5E1B89"}}></i>
-    })
+    
+    if (newTodos.length === 0) {
+      toast.success("No task to be marked done", {
+      icon: <i className="bi bi-clipboard-check-fill h3" style={{color: "#5E1B89"}}></i>
+      })
+    } else {
+      toast.success("All tasks are marked done", {
+      icon: <i className="bi bi-clipboard-check-fill h3" style={{color: "#5E1B89"}}></i>
+      })
+    }
+    
+    
   }
 
   function handleCompleted(task) {
@@ -230,7 +239,7 @@ const Todo = () => {
     setShowDeleteModal(false)
     setSelectedTask(null)
     toast.success("Task Deleted", {
-    icon: <i className="bi bi-eraser-fill h3" style={{color: "#5E1B89"}}></i>
+    icon: <i className="bi bi-trash3-fill h4" style={{color: "#5E1B89"}}></i>
     })
   }
 
@@ -240,11 +249,20 @@ const Todo = () => {
   }
 
   function deleteAll() {
+    let newTodos = [...todos]
     setTodos([])
     deleteAllCompleted()
-    toast.success("All tasks deleted", {
-    icon: <i className="bi bi-emoji-grimace h3" style={{color: "#5E1B89"}}></i>
-    })
+    
+    if (newTodos.length === 0) {
+      toast.success("No task to be deleted", {
+      icon: <i className="bi bi-emoji-grimace h3" style={{color: "#5E1B89"}}></i>
+      })
+    } else {
+      toast.success("All tasks deleted", {
+      icon: <i className="bi bi-emoji-grimace h3" style={{color: "#5E1B89"}}></i>
+      })
+    }
+
   }
 
   function deleteAllCompleted() {
@@ -401,7 +419,7 @@ const Todo = () => {
           <i className="bi bi-list-check h3"></i>
         </button>
         <button className="btn btn-outline-light p-1" style={{width: "100px"}} data-bs-toggle="modal" data-bs-target="#deleteAllModal">
-          <i class="bi bi-trash3 h5 p-1"></i> All
+          <i className="bi bi-trash3 h5 p-1"></i> All
         </button>
             
         <div className="modal fade" id="deleteAllModal" tabindex="-1" aria-labelledby="deleteAllModalLabel" aria-hidden="true">
