@@ -274,29 +274,28 @@ const Todo = () => {
   return (
     <div style={{width: "100%"}}>
       <ToastContainer />
-      <nav className="navbar navbar-expand-sm mb-4" >
-        <div style={{display: "grid", gridTemplateColumns: "50% 42% 8%", width: "100%", height: "100%", margin: "0"}}>
-          <div className="navbar-brand text-white me-0 p-1" style={{ width: "100%", textAlign: "center", fontWeight: "bold", 
-          border: "solid white 1px", borderTopRightRadius: "10px", borderBottom: "transparent"}}>
+      <nav className="navbar navbar-expand-sm mb-4 row" style={{width: "100%"}}>
+        <div className="row m-1 me-0 pe-0">
+          <div className="navbar-brand text-white me-0 col-sm-7" style={{ textAlign: "center", fontWeight: "bold", 
+          border: "solid white 1px", borderTopRightRadius: "10px", borderBottom: "transparent", position:"relative"}}>
             TODO LIST
           </div>
 
-          <div className="collapse navbar-collapse" id="navbarSupportedContent" style={{width: "100%", justifyContent: "start",
-            borderBottom: "solid white 1px", display: "grid", gridTemplateColumns: "50% 50%"
-          }}>
-            <ul className="nav" style={{width: "100%", marginTop: "2%"}}>
-              <li className={`nav-item ${isCompleted=== false && 'active'}`} onClick={() => setCompleted(false)} style={{width: "50%"}}>
+          <div className="collapse navbar-collapse col-sm-4 m-0 p-0 border-bottom border-white" id="navbarSupportedContent" 
+          style={{justifyContent: "start"}}>
+            <ul className="nav" style={{width: "100%", display: "grid", gridTemplateColumns: "50% 50%"}}>
+              <li className={`nav-item ${isCompleted=== false && 'active'}`} onClick={() => setCompleted(false)} style={{width: "100%"}}>
                 <a className="nav-link text-white" aria-current="page">All</a>
               </li>
-              <li className={`nav-item ${isCompleted=== true && 'active'}`} onClick={() => setCompleted(true)} style={{width: "50%"}}>
+              <li className={`nav-item ${isCompleted=== true && 'active'}`} onClick={() => setCompleted(true)} style={{width: "100%"}}>
                 <a className="nav-link text-white">Completed</a>
               </li>
             </ul>
           </div>
 
-          <div style={{width: "85%", marginLeft: "15%", marginTop: "10%"}}>
+          <div className="col-sm-1 pe-0" style={{alignContent: "center", justifyItems: "end"}}>
               <button className="btn btn-outline-light p-0" style={{width: "100%"}} 
-              onClick={() => setShowAddModal(true)}><i className="bi bi-plus h2"></i></button>
+              onClick={() => setShowAddModal(true)} data-bs-toggle="tooltip" title="Add Task"><i className="bi bi-plus h2"></i></button>
           </div>
 
             <Modal show={showAddModal} onHide={() => setShowAddModal(false)} centered>
@@ -338,15 +337,28 @@ const Todo = () => {
           return (
             <div key={index} className='rounded mt-2 p-2' style={{backgroundColor: todo.completed ? "#9D71BC" : "transparent", 
             border: todo.completed ? "solid white 1px" : "solid white 2px",
-            color: "white", display: "grid", gridTemplateColumns: "50% 50%"}}>
+            color: "white", display: "grid", gridTemplateColumns: "80% 20%"}}>
 
-              <div className='me-auto'>
-                <i className= {"me-2 h5 " + (todo.completed ? "bi bi-check-square-fill" : "bi bi-square")} style={{cursor: "pointer", 
-                fontStyle: "normal", textTransform: "uppercase", textDecoration: todo.completed ? "line-through" : "none"}} 
-                onClick={() => changeTaskStatus(todo.task)}> {todo.task}</i>
+              <div className='me-auto' style={{width: "100%", display: "grid", gridTemplateColumns: "5% 93%"}}>
+                <div style={{width: "100%", alignContent: "center"}}>
+                  <i className= {"me-2 h5 " + (todo.completed ? "bi bi-check-square-fill" : "bi bi-square")} style={{cursor: "pointer", 
+                  fontStyle: "normal", textTransform: "uppercase", textDecoration: todo.completed ? "line-through" : "none"}} 
+                  onClick={() => changeTaskStatus(todo.task)}> </i> 
+                </div>
+
+                <div style={{fontSize: "12px", width: "100%", textAlign: "left",
+                  display: "grid", gridTemplateRows: "45% 40%", marginLeft: "1%", alignContent: "center"
+                }}>
+                  <div style={{height: "100%", textTransform: "uppercase", cursor: "pointer"}} onClick={() => openEditModal(todo)}>
+                    <i><h4>{todo.task}</h4></i>
+                  </div>
+                  <div style={{height: "100%", color: "rgba(245, 245, 245, 0.822)", marginLeft: "4px"}}>
+                    {"Created On: " + todo.createdOn}
+                  </div>
+                </div>
               </div>
 
-              <div style={{textAlign: "end"}}>
+              <div style={{textAlign: "end", alignContent: "center"}}>
                 <i className="bi bi-pencil-square me-2 h5" style={{cursor: "pointer"}}  onClick={() => openEditModal(todo)}></i>
 
                   <Modal show={showEditModal} onHide={() => setShowEditModal(false)} centered>
@@ -380,9 +392,7 @@ const Todo = () => {
                   </Modal>
 
               </div>
-                <div className="d-flex" style={{marginLeft: "7%", fontSize: "12px"}}>
-                  {"Created On: " + todo.createdOn}
-                </div>
+
             </div>
           )})
       }

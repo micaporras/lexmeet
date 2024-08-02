@@ -11,7 +11,6 @@
     cursor: pointer;
     background-color: transparent;
     color: white;
-    width: 120px;
     text-align: center;
     text-decoration: none;
     border-left: solid 1px white;
@@ -21,6 +20,11 @@
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
 }
+
+.custom-nav-item {
+    width: 50%;
+    float: left;
+  }
 
 .nav-item:hover {
     background-color: #ff7f4d5d;
@@ -36,6 +40,12 @@
     background-color: #FF7F4D;
 }
 
+i {
+    font-style: normal;
+}
+
 i:hover {
     color: #5E1B89;
 }
+
+
