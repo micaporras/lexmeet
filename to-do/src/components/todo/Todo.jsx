@@ -295,19 +295,20 @@ const Todo = () => {
 
           <div className="col-sm-1 pe-0" style={{alignContent: "center", justifyItems: "end"}}>
               <button className="btn btn-outline-light p-0" style={{width: "100%"}} 
-              onClick={() => setShowAddModal(true)} data-bs-toggle="tooltip" title="Add Task"><i className="bi bi-plus h2"></i></button>
+              onClick={() => setShowAddModal(true)} data-bs-toggle="tooltip" data-bs-placement="top" title="Add Task">
+                <i className="bi bi-plus h2"></i>
+              </button>
           </div>
 
             <Modal show={showAddModal} onHide={() => setShowAddModal(false)} centered>
               <Modal.Header closeButton>
-                <Modal.Title>Create Task</Modal.Title>
+                <Modal.Title className="text-secondary">Create Task</Modal.Title>
               </Modal.Header>
               <Modal.Body>
                 <form onSubmit={AddTask}>
                   <input type="text" className="form-control" name='task' placeholder="Enter a task here"/>
                   <Modal.Footer className='mt-3'>
-                      <Button variant="secondary" onClick={() => setShowAddModal(false)}>Close</Button>
-                      <Button className="p-2" type="submit" style={{backgroundColor: "#5E1B89", border: "transparent", width: "70px"}}>Add</Button>
+                      <Button type="submit" style={{backgroundColor: "#5E1B89", border: "transparent"}}>Add</Button>
                   </Modal.Footer>
                 </form>
               </Modal.Body>
@@ -335,14 +336,14 @@ const Todo = () => {
       {
         isCompleted === false && todos.map((todo, index) => {
           return (
-            <div key={index} className='rounded mt-2 p-2' style={{backgroundColor: todo.completed ? "#9D71BC" : "transparent", 
+            <div key={index} className='rounded mt-2 p-1' style={{backgroundColor: todo.completed ? "#9D71BC" : "transparent", 
             border: todo.completed ? "solid white 1px" : "solid white 2px",
             color: "white", display: "grid", gridTemplateColumns: "80% 20%"}}>
 
-              <div className='me-auto' style={{width: "100%", display: "grid", gridTemplateColumns: "5% 93%"}}>
+              <div className='me-auto' style={{width: "100%", display: "grid", gridTemplateColumns: "5% 93%", textDecoration: todo.completed ? "line-through" : "none"}}>
                 <div style={{width: "100%", alignContent: "center"}}>
                   <i className= {"me-2 h5 " + (todo.completed ? "bi bi-check-square-fill" : "bi bi-square")} style={{cursor: "pointer", 
-                  fontStyle: "normal", textTransform: "uppercase", textDecoration: todo.completed ? "line-through" : "none"}} 
+                  fontStyle: "normal", textTransform: "uppercase"}} 
                   onClick={() => changeTaskStatus(todo.task)}> </i> 
                 </div>
 
@@ -350,7 +351,7 @@ const Todo = () => {
                   display: "grid", gridTemplateRows: "45% 40%", marginLeft: "1%", alignContent: "center"
                 }}>
                   <div style={{height: "100%", textTransform: "uppercase", cursor: "pointer"}} onClick={() => openEditModal(todo)}>
-                    <i><h4>{todo.task}</h4></i>
+                    <i><h5>{todo.task}</h5></i>
                   </div>
                   <div style={{height: "100%", color: "rgba(245, 245, 245, 0.822)", marginLeft: "4px"}}>
                     {"Created On: " + todo.createdOn}
@@ -363,15 +364,14 @@ const Todo = () => {
 
                   <Modal show={showEditModal} onHide={() => setShowEditModal(false)} centered>
                     <Modal.Header closeButton>
-                      <Modal.Title>Update Task</Modal.Title>
+                      <Modal.Title className="text-secondary">Update Task</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                       <input type="text" className="form-control" value={editTask.task} 
                       onChange={(e) => setEditTask({ ...editTask, task: e.target.value })} />
                     </Modal.Body>
                     <Modal.Footer>
-                      <Button variant="secondary" onClick={() => setShowEditModal(false)}>Close</Button>
-                      <Button style={{backgroundColor: "#5E1B89", border: "transparent"}} onClick={handleSaveTask}>Save</Button>
+                      <Button variant="primary" style={{backgroundColor: "#5E1B89", border: "transparent"}} onClick={handleSaveTask}>Save</Button>
                     </Modal.Footer>
                   </Modal>
 
@@ -400,17 +400,18 @@ const Todo = () => {
       {
         isCompleted === true && completedTodos.map((todo, index) => {
           return (
-            <div key={index} className='rounded mt-2 p-2' style={{backgroundColor: todo.completed ? "#9D71BC" : "transparent", 
-            border: todo.completed ? "solid white 1px" : "solid white 2px",
-            color: "white", display: "grid", gridTemplateColumns: "70% 30%"}}>
+            <div key={index} className='rounded m-2 p-1 row text-white' style={{backgroundColor: todo.completed ? "#9D71BC" : "transparent", 
+            border: todo.completed ? "solid white 1px" : "solid white 2px", textAlign: "left"}}>
 
-              <div className='me-auto' >
-                <i className= {"me-2 h5 " + (todo.completed ? "bi bi-check-square-fill" : "bi bi-square")} 
-                style={{cursor: "pointer",fontStyle: "normal", textTransform: "uppercase", 
-                textDecoration: todo.completed ? "line-through" : "none"}} onClick={() => changeTaskStatus(todo.task)}> {todo.task}</i>
+              <div className='me-auto col-sm-8 text-uppercase letter-spacing' style={{alignContent: "center"}}>
+                <i className= {"me-2 h5" + (todo.completed ? "bi bi-check-square-fill" : "bi bi-square")} 
+                style={{cursor: "pointer", fontStyle: "normal", 
+                textDecoration: todo.completed ? "line-through" : "none"}} 
+                onClick={() => changeTaskStatus(todo.task)}> {todo.task}</i>
               </div>
                   
-              <div className="d-grid" style={{height: "100%", gridTemplateRows: "50% 50%", fontSize: "12px", textAlign: "left"}}>
+              <div className="d-grid col-sm-4" style={{height: "100%", gridTemplateRows: "50% 50%", fontSize: "12px", 
+                textAlign: "left", justifyContent: "end"}}>
                 <div style={{width: "100%"}}>
                   {"Created On: " + todo.createdOn}
                 </div>

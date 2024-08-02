@@ -24,7 +24,7 @@
 .custom-nav-item {
     width: 50%;
     float: left;
-  }
+}
 
 .nav-item:hover {
     background-color: #ff7f4d5d;
@@ -46,6 +46,10 @@ i {
 
 i:hover {
     color: #5E1B89;
+}
+
+.letter-spacing {
+    letter-spacing: 3px;
 }
 
 
