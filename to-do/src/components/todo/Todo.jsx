@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import './Todo.css';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import Form from 'react-bootstrap/Form';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -165,8 +167,6 @@ const Todo = () => {
       icon: <i className="bi bi-clipboard-check-fill h3" style={{color: "#5E1B89"}}></i>
       })
     }
-    
-    
   }
 
   function handleCompleted(task) {
@@ -198,7 +198,6 @@ const Todo = () => {
       newCompletedTodos.push(filteredItem)
       setCompletedTodos(newCompletedTodos)
     }
-    
   }
 
   function openEditModal(task) {
@@ -225,7 +224,6 @@ const Todo = () => {
     icon: <i className="bi bi-hand-thumbs-up-fill h3" style={{color: "#5E1B89"}}></i>
     })
   }
-
 
   function confirmDelete(task) {
     setSelectedTask(task)
@@ -262,27 +260,25 @@ const Todo = () => {
       icon: <i className="bi bi-emoji-grimace h3" style={{color: "#5E1B89"}}></i>
       })
     }
-
   }
 
   function deleteAllCompleted() {
     setCompletedTodos([])
   }
 
-
-  
   return (
-    <div style={{width: "100%"}}>
+    <div style={{width: "100%"}}> {/* The Todo List*/}
       <ToastContainer />
+      {/* The navbar */}
       <nav className="navbar navbar-expand-sm mb-4 row" style={{width: "100%"}}>
         <div className="row m-1 me-0 pe-0">
           <div className="navbar-brand text-white me-0 col-sm-7" style={{ textAlign: "center", fontWeight: "bold", 
-          border: "solid white 1px", borderTopRightRadius: "10px", borderBottom: "transparent", position:"relative"}}>
+          border: "solid white 2px", borderTopRightRadius: "10px", borderBottom: "transparent", position:"relative"}}>
             TODO LIST
           </div>
 
-          <div className="collapse navbar-collapse col-sm-4 m-0 p-0 border-bottom border-white" id="navbarSupportedContent" 
-          style={{justifyContent: "start"}}>
+          <div className="collapse navbar-collapse col-sm-4 m-0 p-0" id="navbarSupportedContent" 
+          style={{justifyContent: "start", borderBottom: "solid white 2px"}}>
             <ul className="nav" style={{width: "100%", display: "grid", gridTemplateColumns: "50% 50%"}}>
               <li className={`nav-item ${isCompleted=== false && 'active'}`} onClick={() => setCompleted(false)} style={{width: "100%"}}>
                 <a className="nav-link text-white" aria-current="page">All</a>
@@ -292,7 +288,8 @@ const Todo = () => {
               </li>
             </ul>
           </div>
-
+          
+          {/* The Add Task button */}
           <div className="col-sm-1 pe-0" style={{alignContent: "center", justifyItems: "end"}}>
               <button className="btn btn-outline-light p-0" style={{width: "100%"}} 
               onClick={() => setShowAddModal(true)} data-bs-toggle="tooltip" data-bs-placement="top" title="Add Task">
@@ -300,23 +297,10 @@ const Todo = () => {
               </button>
           </div>
 
-            <Modal show={showAddModal} onHide={() => setShowAddModal(false)} centered>
-              <Modal.Header closeButton>
-                <Modal.Title className="text-secondary">Create Task</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                <form onSubmit={AddTask}>
-                  <input type="text" className="form-control" name='task' placeholder="Enter a task here"/>
-                  <Modal.Footer className='mt-3'>
-                      <Button type="submit" style={{backgroundColor: "#5E1B89", border: "transparent"}}>Add</Button>
-                  </Modal.Footer>
-                </form>
-              </Modal.Body>
-            </Modal>
-
         </div>
       </nav>
-
+      
+      {/* When the list is empty */}
       {
         isCompleted === false && todos.length === 0 && (
         <div className="text-center mt-4" style={{color: "rgba(245, 245, 245, 0.822)", 
@@ -329,10 +313,11 @@ const Todo = () => {
         isCompleted === true && completedTodos.length === 0 && (
         <div className="text-center mt-4" style={{color: "rgba(245, 245, 245, 0.822)", 
         textTransform: "uppercase", minHeight: "200px", alignContent: "center"}}>
-          No completed task yet
+          No completed task
         </div>)
       }
 
+      {/* All Tab */}
       {
         isCompleted === false && todos.map((todo, index) => {
           return (
@@ -362,41 +347,15 @@ const Todo = () => {
               <div style={{textAlign: "end", alignContent: "center"}}>
                 <i className="bi bi-pencil-square me-2 h5" style={{cursor: "pointer"}}  onClick={() => openEditModal(todo)}></i>
 
-                  <Modal show={showEditModal} onHide={() => setShowEditModal(false)} centered>
-                    <Modal.Header closeButton>
-                      <Modal.Title className="text-secondary">Update Task</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                      <input type="text" className="form-control" value={editTask.task} 
-                      onChange={(e) => setEditTask({ ...editTask, task: e.target.value })} />
-                    </Modal.Body>
-                    <Modal.Footer>
-                      <Button variant="primary" style={{backgroundColor: "#5E1B89", border: "transparent"}} onClick={handleSaveTask}>Save</Button>
-                    </Modal.Footer>
-                  </Modal>
-
-                  <i className="bi bi-trash3 h5 me-2" style={{cursor: "pointer"}} 
-                  onClick={() => confirmDelete(todo.task)}></i>
-
-                  <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)} centered>
-                    <Modal.Header closeButton>
-                      <Modal.Title>Delete Task</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                      Are you sure you want to delete this task?
-                    </Modal.Body>
-                    <Modal.Footer>
-                      <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>Close</Button>
-                      <Button style={{backgroundColor: "#5E1B89", border: "transparent"}} data-bs-toggle="modal" data-bs-target="#deleteModal" onClick={handleDeleteConfirmed}>Delete</Button>
-                    </Modal.Footer>
-                  </Modal>
-
+                <i className="bi bi-trash3 h5 me-2" style={{cursor: "pointer"}} 
+                onClick={() => confirmDelete(todo.task)}></i>
               </div>
 
             </div>
           )})
       }
-
+      
+      {/* Completed Tab */}
       {
         isCompleted === true && completedTodos.map((todo, index) => {
           return (
@@ -425,6 +384,48 @@ const Todo = () => {
           )})
       }
 
+      {/* Modals */}
+      <Modal show={showAddModal} onHide={() => setShowAddModal(false)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title className="text-secondary">Create Task</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <form onSubmit={AddTask}>
+            <FloatingLabel controlId="floatingInput" label="Enter a task here" className="mb-3 text-secondary">
+            <Form.Control type="text" placeholder="Todo" name="task"/>
+            </FloatingLabel>
+            <Modal.Footer className='mt-3'>
+              <Button type="submit" style={{backgroundColor: "#5E1B89", border: "transparent"}}>Add</Button>
+            </Modal.Footer>
+          </form>
+        </Modal.Body>
+      </Modal>
+
+      <Modal show={showEditModal} onHide={() => setShowEditModal(false)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title className="text-secondary h3">Update Task</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <input type="text" className="form-control" value={editTask.task} 
+          onChange={(e) => setEditTask({ ...editTask, task: e.target.value })} />
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" style={{backgroundColor: "#5E1B89", border: "transparent"}} onClick={handleSaveTask}>Save</Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title className="text-secondary">Delete Task</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="text-secondary">
+          Are you sure you want to delete this task?
+        </Modal.Body>
+        <Modal.Footer>
+          <Button style={{backgroundColor: "#5E1B89", border: "transparent"}} data-bs-toggle="modal" data-bs-target="#deleteModal" onClick={handleDeleteConfirmed}>Delete</Button>
+        </Modal.Footer>
+      </Modal>
+
       <div className="mt-4 position-relative">
         <button className="btn btn-outline-light me-4 p-0" onClick={() => checkAll()} style={{width: "100px"}}>
           <i className="bi bi-list-check h3"></i>
@@ -433,7 +434,7 @@ const Todo = () => {
           <i className="bi bi-trash3 h5 p-1"></i> All
         </button>
             
-        <div className="modal fade" id="deleteAllModal" tabindex="-1" aria-labelledby="deleteAllModalLabel" aria-hidden="true">
+        <div className="modal fade text-secondary" id="deleteAllModal" tabindex="-1" aria-labelledby="deleteAllModalLabel" aria-hidden="true">
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
               <div className="modal-header">
@@ -446,15 +447,14 @@ const Todo = () => {
               </div>
 
               <div class="modal-footer">
-                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="button" className="btn text-white" style={{backgroundColor: "#5E1B89"}} 
                 onClick={() => deleteAll()} data-bs-dismiss="modal">Delete</button>
               </div>
             </div>
           </div>
         </div>
-        
       </div>
+
     </div>    
   )
 }

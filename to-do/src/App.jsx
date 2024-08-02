@@ -6,7 +6,8 @@ import Todo from './components/todo/Todo'
 function App() {
 
   return (
-    <div className='container my-4'>
+    <div className='container my-4'> {/* The whole container */}
+      {/* The LexMeet logo */}
       <div div className='mx-auto p-4' style={{width: "90%", backgroundColor: "transparent", border: "solid white 4px", borderRadius: "12px"}}>
         <a href="https://lexmeet.com/" target="_blank"><img className="mb-3" src="logo1.png" style={{height:50, width:230, cursor: "pointer"}}/></a>
         
