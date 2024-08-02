@@ -14,7 +14,10 @@
     width: 120px;
     text-align: center;
     text-decoration: none;
-    border: solid 1px white;
+    border-left: solid 1px white;
+    border-right: solid 1px white;
+    border-top: solid 1px white;
+    border-bottom: transparent;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
 }
