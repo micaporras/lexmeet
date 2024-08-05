@@ -6,6 +6,9 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+
 
 
 
@@ -38,6 +41,8 @@ const Todo = () => {
 
   const [todos, setTodos] = useState(getStoredTodos())
   const [showAddModal, setShowAddModal] = useState(false)
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  
   const [isCompleted, setCompleted] = useState(false)
   const [completedTodos, setCompletedTodos] = useState(getStoredCompletedTodos())
  
@@ -62,7 +67,7 @@ const Todo = () => {
     event.preventDefault()
 
     let task = event.target.task.value
-    let dateCreated = new Date()
+    let dateCreated = selectedDate
     let day = dateCreated.getDate()
     let month = dateCreated.getMonth()
     let year = dateCreated.getFullYear()
@@ -385,6 +390,7 @@ const Todo = () => {
       }
 
       {/* Modals */}
+
       <Modal show={showAddModal} onHide={() => setShowAddModal(false)} centered>
         <Modal.Header closeButton>
           <Modal.Title className="text-secondary">Create Task</Modal.Title>
@@ -392,10 +398,23 @@ const Todo = () => {
         <Modal.Body>
           <form onSubmit={AddTask}>
             <FloatingLabel controlId="floatingInput" label="Enter a task here" className="mb-3 text-secondary">
-            <Form.Control type="text" placeholder="Todo" name="task"/>
+              <Form.Control type="text" placeholder="Todo" name="task" />
             </FloatingLabel>
+            <DatePicker
+              selected={selectedDate}
+              onChange={(date) => setSelectedDate(date)}
+              showTimeSelect
+              dateFormat="MMMM d, yyyy h:mm aa"
+              todayButton = "Today"
+              className="form-control text-secondary"
+              onCalendarClose={() => {
+                if (selectedDate.toDateString() === new Date().toDateString()) {
+                  setSelectedDate(new Date());
+                }
+              }}
+            />
             <Modal.Footer className='mt-3'>
-              <Button type="submit" style={{backgroundColor: "#5E1B89", border: "transparent"}}>Add</Button>
+              <Button type="submit" style={{ backgroundColor: "#5E1B89", border: "transparent" }}>Add</Button>
             </Modal.Footer>
           </form>
         </Modal.Body>
