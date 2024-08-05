@@ -52,7 +52,7 @@ const Todo = () => {
   const [showEditModal, setShowEditModal] = useState(false)
   const [showDetailsModal, setShowDetailsModal] = useState(false)
   
-  const [editTask, setEditTask] = useState('')
+  const [editTask, setEditTask] = useState({ task: '', deadlineOn: new Date() })
   const [editTaskOriginal, setEditTaskOriginal] = useState(null)
   const [selectedTaskDetails, setSelectedTaskDetails] = useState(null)
 
@@ -71,29 +71,8 @@ const Todo = () => {
     let task = event.target.task.value
 
     let dateCreated = new Date()
-    let day = dateCreated.getDate()
-    let month = dateCreated.getMonth()
-    let year = dateCreated.getFullYear()
-    let hour = dateCreated.getHours()
-    let minute = dateCreated.getMinutes()
-
-    let deadline = selectedDate
-    let dayDL = deadline.getDate()
-    let monthDL = deadline.getMonth()
-    let yearDL = deadline.getFullYear()
-    let hourDL = deadline.getHours()
-    let minuteDL = deadline.getMinutes()
-
-    let detectAmPm = hour >= 12 ? 'PM' : 'AM'
-    hour = hour % 12
-    hour = hour? hour : 12
-
-    minute = minute < 10 ? '0' + minute : minute
-
-    month = monthNames[month]
-    monthDL = monthNames[monthDL]
-    let createdOn = month + ' ' + day + ', ' + year + ' ' + hour + ':' + minute + detectAmPm
-    let deadlineOn = monthDL + ' ' + dayDL + ', ' + yearDL + ' ' + hourDL + ':' + minuteDL + detectAmPm
+    let createdOn = formatDate(dateCreated)
+    let deadlineOn = formatDate(selectedDate)
 
     if (!task) {
       toast.error("Please input a task", {
@@ -111,6 +90,19 @@ const Todo = () => {
     event.target.reset()
     setShowAddModal(false)
     
+  }
+
+  function formatDate(date) {
+    let day = date.getDate()
+    let month = monthNames[date.getMonth()]
+    let year = date.getFullYear()
+    let hour = date.getHours()
+    let minute = date.getMinutes()
+    let detectAmPm = hour >= 12 ? 'PM' : 'AM'
+    hour = hour % 12
+    hour = hour ? hour : 12
+    minute = minute < 10 ? '0' + minute : minute
+    return `${month} ${day}, ${year} ${hour}:${minute} ${detectAmPm}`
   }
 
   function openDetailsModal(task) {
@@ -155,20 +147,7 @@ const Todo = () => {
   function checkAll() {
     let newTodos = [...todos]
 
-    let dateCompleted = new Date()
-    let dayCompleted = dateCompleted.getDate()
-    let monthCompleted = dateCompleted.getMonth()
-    let yearCompleted = dateCompleted.getFullYear()
-    let hourCompleted = dateCompleted.getHours()
-    let minuteCompleted = dateCompleted.getMinutes()
-
-    monthCompleted = monthNames[monthCompleted]
-    let detectAmPm = hourCompleted >= 12 ? 'PM' : 'AM'
-    hourCompleted = hourCompleted % 12
-    hourCompleted = hourCompleted ? hourCompleted : 12
-    minuteCompleted = minuteCompleted < 10 ? '0' + minuteCompleted : minuteCompleted
-
-    let completedOn = monthCompleted + ' ' + dayCompleted + ', ' + yearCompleted + ' ' + hourCompleted + ':' + minuteCompleted + detectAmPm
+    let completedOn = formatDate(new Date())
 
     for (let i = 0; i < newTodos.length; i++) {
       if (!newTodos[i].completed) {
@@ -192,22 +171,7 @@ const Todo = () => {
   }
 
   function handleCompleted(task) {
-    let dateCompleted = new Date()
-    let dayCompleted = dateCompleted.getDate()
-    let monthCompleted = dateCompleted.getMonth()
-    let yearCompleted = dateCompleted.getFullYear()
-    let hourCompleted = dateCompleted.getHours()
-    let minuteCompleted = dateCompleted.getMinutes()
-
-    monthCompleted = monthNames[monthCompleted]
-
-    let detectAmPm = hourCompleted >= 12 ? 'PM' : 'AM'
-    hourCompleted = hourCompleted % 12
-    hourCompleted = hourCompleted ? hourCompleted : 12
-
-    minuteCompleted = minuteCompleted < 10 ? '0' + minuteCompleted : minuteCompleted
-
-    let completedOn = monthCompleted + ' ' + dayCompleted + ', ' + yearCompleted + ' ' + hourCompleted + ':' + minuteCompleted + detectAmPm
+    let completedOn = formatDate(new Date());
     let newCompletedTodos = [...completedTodos]
     let todo = todos.find(t => t.task === task)
     
@@ -223,24 +187,24 @@ const Todo = () => {
   }
 
   function openEditModal(task) {
-    setEditTask(task)
+    setEditTask({ task: task.task, deadlineOn: new Date(task.deadlineOn) })
     setEditTaskOriginal(task)
     setShowEditModal(true)
   }
 
   function handleSaveTask() {
     let updatedTodos = todos.map(todo => 
-        todo.task === editTaskOriginal.task ? { ...todo, task: editTask.task } : todo
+        todo.task === editTaskOriginal.task ? { ...todo, task: editTask.task, deadlineOn: formatDate(editTask.deadlineOn) } : todo
     );
     setTodos(updatedTodos)
 
     let updatedCompletedTodos = completedTodos.map(todo => 
-        todo.task === editTaskOriginal.task ? { ...todo, task: editTask.task } : todo
+        todo.task === editTaskOriginal.task ? { ...todo, task: editTask.task, deadlineOn: formatDate(editTask.deadlineOn) } : todo
     );
     setCompletedTodos(updatedCompletedTodos)
 
     setShowEditModal(false)
-    setEditTask('')
+    setEditTask({ task: '', deadlineOn: new Date() })
     setEditTaskOriginal(null)
     toast.success("Task Updated", {
     icon: <i className="bi bi-hand-thumbs-up-fill h3" style={{color: "#5E1B89"}}></i>
@@ -464,8 +428,15 @@ const Todo = () => {
           <Modal.Title >Update Task</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <input type="text" className="form-control text-secondary" value={editTask.task} 
+          <input type="text" className="form-control text-secondary mb-2" value={editTask.task} 
           onChange={(e) => setEditTask({ ...editTask, task: e.target.value })} />
+          <DatePicker
+              selected={editTask.deadlineOn}
+              onChange={(date) => setEditTask({ ...editTask, deadlineOn: date })}
+              showTimeSelect
+              dateFormat="MMMM d, yyyy h:mm aa"
+              className="form-control mb-3 text-secondary"
+            />
         </Modal.Body>
         <Modal.Footer>
           <Button variant="primary" style={{backgroundColor: "#5E1B89", border: "transparent"}} onClick={handleSaveTask}>Save</Button>
