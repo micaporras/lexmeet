@@ -41,7 +41,7 @@ const Todo = () => {
 
   const [todos, setTodos] = useState(getStoredTodos())
   const [showAddModal, setShowAddModal] = useState(false)
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(new Date())
   
   const [isCompleted, setCompleted] = useState(false)
   const [completedTodos, setCompletedTodos] = useState(getStoredCompletedTodos())
@@ -50,9 +50,11 @@ const Todo = () => {
   const [selectedTask, setSelectedTask] = useState(null)
   
   const [showEditModal, setShowEditModal] = useState(false)
+  const [showDetailsModal, setShowDetailsModal] = useState(false)
   
   const [editTask, setEditTask] = useState('')
   const [editTaskOriginal, setEditTaskOriginal] = useState(null)
+  const [selectedTaskDetails, setSelectedTaskDetails] = useState(null)
 
 
   useEffect(() => {
@@ -67,12 +69,20 @@ const Todo = () => {
     event.preventDefault()
 
     let task = event.target.task.value
-    let dateCreated = selectedDate
+
+    let dateCreated = new Date()
     let day = dateCreated.getDate()
     let month = dateCreated.getMonth()
     let year = dateCreated.getFullYear()
     let hour = dateCreated.getHours()
     let minute = dateCreated.getMinutes()
+
+    let deadline = selectedDate
+    let dayDL = deadline.getDate()
+    let monthDL = deadline.getMonth()
+    let yearDL = deadline.getFullYear()
+    let hourDL = deadline.getHours()
+    let minuteDL = deadline.getMinutes()
 
     let detectAmPm = hour >= 12 ? 'PM' : 'AM'
     hour = hour % 12
@@ -81,7 +91,9 @@ const Todo = () => {
     minute = minute < 10 ? '0' + minute : minute
 
     month = monthNames[month]
+    monthDL = monthNames[monthDL]
     let createdOn = month + ' ' + day + ', ' + year + ' ' + hour + ':' + minute + detectAmPm
+    let deadlineOn = monthDL + ' ' + dayDL + ', ' + yearDL + ' ' + hourDL + ':' + minuteDL + detectAmPm
 
     if (!task) {
       toast.error("Please input a task", {
@@ -90,7 +102,7 @@ const Todo = () => {
       return
     }
 
-    setTodos([...todos, {task:task, completed: false, createdOn, completedOn: ""}])
+    setTodos([...todos, {task:task, completed: false, createdOn, deadlineOn, completedOn: ""}])
 
     toast.success("New task added on " + createdOn, {
     icon: <i className="bi bi-emoji-laughing-fill h4" style={{color: "#5E1B89"}}></i>
@@ -99,6 +111,11 @@ const Todo = () => {
     event.target.reset()
     setShowAddModal(false)
     
+  }
+
+  function openDetailsModal(task) {
+    setSelectedTaskDetails(task);
+    setShowDetailsModal(true);
   }
 
   function changeTaskStatus(task) {
@@ -340,11 +357,12 @@ const Todo = () => {
                 <div style={{fontSize: "12px", width: "100%", textAlign: "left",
                   display: "grid", gridTemplateRows: "50% 40%", marginLeft: "1%", alignContent: "center"
                 }}>
-                  <div style={{height: "100%", cursor: "pointer"}} onClick={() => openEditModal(todo)}>
+                  <div style={{height: "100%", cursor: "pointer"}} onClick={() => openDetailsModal(todo)}>
                     <i><h5>{todo.task}</h5></i>
                   </div>
                   <div style={{height: "100%", color: "rgba(245, 245, 245, 0.822)"}}>
-                    {"Created on: " + todo.createdOn}
+                    <div>{"Deadline: " + todo.deadlineOn}</div>
+                    
                   </div>
                 </div>
               </div>
@@ -400,6 +418,7 @@ const Todo = () => {
             <FloatingLabel controlId="floatingInput" label="Enter a task here" className="mb-3 text-secondary">
               <Form.Control type="text" placeholder="Todo" name="task" />
             </FloatingLabel>
+            <label className="text-secondary ms-1 me-2">Deadline</label>
             <DatePicker
               selected={selectedDate}
               onChange={(date) => setSelectedDate(date)}
@@ -418,6 +437,26 @@ const Todo = () => {
             </Modal.Footer>
           </form>
         </Modal.Body>
+      </Modal>
+
+      <Modal show={showDetailsModal} onHide={() => setShowDetailsModal(false)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title className="text-secondary">Task Details</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="text-secondary">
+          {selectedTaskDetails && (
+            <>
+              <h3 className="mb-3 text-center"><strong>{selectedTaskDetails.task}</strong></h3>
+              <p><strong>Date Created:</strong> {selectedTaskDetails.createdOn}</p>
+              <p><strong>Deadline:</strong> {selectedTaskDetails.deadlineOn}</p>
+              {selectedTaskDetails.completedOn && (
+                <p><strong>Completed On:</strong> {selectedTaskDetails.completedOn}</p>
+              )}
+            </>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+        </Modal.Footer>
       </Modal>
 
       <Modal className="text-secondary"show={showEditModal} onHide={() => setShowEditModal(false)} centered>
