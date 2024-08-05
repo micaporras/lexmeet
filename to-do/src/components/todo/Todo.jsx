@@ -111,38 +111,48 @@ const Todo = () => {
   }
 
   function changeTaskStatus(task) {
-    let newTodos = [...todos]
-    let newCompletedTodos = [...completedTodos]
-
-    let todo = newTodos.find(t => t.task === task)
+    let newTodos = [...todos];
+    let newCompletedTodos = [...completedTodos];
+  
+    let todo = newTodos.find(t => t.task === task);
+  
     if (todo) {
-      todo.completed = !todo.completed
-      setTodos(newTodos)
-
-      if (todo.completed) {
-        handleCompleted(task)
+      if (!todo.completed) {
+        todo.completed = true;
+        todo.completedOn = formatDate(new Date());
+        setTodos(newTodos);
+  
+        handleCompleted(task);
       } else {
-          let completedTodoIndex = newCompletedTodos.findIndex(t => t.task === task)
-          if (completedTodoIndex !== -1) {
-            newCompletedTodos.splice(completedTodoIndex, 1)
-            setCompletedTodos(newCompletedTodos)
-          }
+        todo.completed = false;
+        todo.completedOn = "";
+        setTodos(newTodos);
+  
+        let completedTodoIndex = newCompletedTodos.findIndex(t => t.task === task);
+        if (completedTodoIndex !== -1) {
+          newCompletedTodos.splice(completedTodoIndex, 1);
+          setCompletedTodos(newCompletedTodos);
         }
+      }
     } else {
-        let completedTodo = newCompletedTodos.find(t => t.task === task)
-        if (completedTodo) {
-          completedTodo.completed = !completedTodo.completed
-          newTodos.push(completedTodo)
-          setTodos(newTodos)
-
-          let completedTodoIndex = newCompletedTodos.findIndex(t => t.task === task)
+      let completedTodo = newCompletedTodos.find(t => t.task === task);
+      if (completedTodo) {
+        completedTodo.completed = !completedTodo.completed;
+        if (completedTodo.completed) {
+          completedTodo.completedOn = formatDate(new Date());
+          newTodos.push(completedTodo);
+          setTodos(newTodos);
+        } else {
+          let completedTodoIndex = newCompletedTodos.findIndex(t => t.task === task);
           if (completedTodoIndex !== -1) {
-            newCompletedTodos.splice(completedTodoIndex, 1)
-            setCompletedTodos(newCompletedTodos)
+            newCompletedTodos.splice(completedTodoIndex, 1);
+            setCompletedTodos(newCompletedTodos);
           }
         }
+      }
     }
   }
+  
 
   function checkAll() {
     let newTodos = [...todos]
@@ -413,9 +423,14 @@ const Todo = () => {
               <h3 className="mb-3 text-center"><strong>{selectedTaskDetails.task}</strong></h3>
               <p><strong>Date Created:</strong> {selectedTaskDetails.createdOn}</p>
               <p><strong>Deadline:</strong> {selectedTaskDetails.deadlineOn}</p>
-              {selectedTaskDetails.completedOn && (
-                <p><strong>Completed On:</strong> {selectedTaskDetails.completedOn}</p>
-              )}
+              {selectedTaskDetails.completed && (
+                <p><strong>Status:</strong> Completed on {selectedTaskDetails.completedOn}</p>
+              )} 
+              {!selectedTaskDetails.completed && (
+                <p><strong>Status:</strong> Not Completed</p>
+              )
+                
+              }
             </>
           )}
         </Modal.Body>
