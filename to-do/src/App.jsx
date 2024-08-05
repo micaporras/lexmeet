@@ -15,6 +15,10 @@ function App() {
 
         {/* Footer */}
         <div className='position-relative bottom-0 mt-5 text-white text-center p-2' style={{borderTop: "solid white 3px"}}> 
+          <div className='mt-2 mb-2'>
+            LexMeet, Inc.
+          </div>
+          
           <a className='text-white me-2' href="https://www.facebook.com/LexMeet" target="_blank"><i className="bi bi-facebook h5"></i></a>
           <a className='text-white me-2' href="https://x.com/LexMeet" target="_blank"><i className="bi bi-twitter-x h5"></i></a>
           <a className='text-white me-2' href="https://www.linkedin.com/company/13284634/" target="_blank"><i className="bi bi-linkedin h5"></i></a>
@@ -22,7 +26,7 @@ function App() {
           <a className='text-white me-2' href="https://www.youtube.com/results?search_query=lexmeet" target="_blank"><i className="bi bi-youtube h5"></i></a>
           
           <div className='mt-2'>
-            All Rights Reserved. © 2016 LexMeet, Inc.
+            All Rights Reserved.
           </div> 
         </div>
       
