@@ -2,7 +2,11 @@
     position: relative;
 }
 
-.Toastify__toast--success, .Toastify__toast--error  .Toastify__progress-bar {
+.Toastify__toast--success, .Toastify__progress-bar {
+    background: linear-gradient(to right, #5E1B89, #9D71BC, #FF7F4D, #F4512C);
+}
+
+.Toastify__toast--error, .Toastify__progress-bar {
     background: linear-gradient(to right, #5E1B89, #9D71BC, #FF7F4D, #F4512C);
 }
 
