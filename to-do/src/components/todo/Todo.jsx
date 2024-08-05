@@ -328,18 +328,18 @@ const Todo = () => {
               <div className='me-auto' style={{width: "100%", display: "grid", gridTemplateColumns: "5% 93%", textDecoration: todo.completed ? "line-through" : "none"}}>
                 <div style={{width: "100%", alignContent: "center"}}>
                   <i className= {"me-2 h5 " + (todo.completed ? "bi bi-check-square-fill" : "bi bi-square")} style={{cursor: "pointer", 
-                  fontStyle: "normal", textTransform: "uppercase"}} 
+                  fontStyle: "normal"}} 
                   onClick={() => changeTaskStatus(todo.task)}> </i> 
                 </div>
 
                 <div style={{fontSize: "12px", width: "100%", textAlign: "left",
-                  display: "grid", gridTemplateRows: "45% 40%", marginLeft: "1%", alignContent: "center"
+                  display: "grid", gridTemplateRows: "50% 40%", marginLeft: "1%", alignContent: "center"
                 }}>
-                  <div style={{height: "100%", textTransform: "uppercase", cursor: "pointer"}} onClick={() => openEditModal(todo)}>
+                  <div style={{height: "100%", cursor: "pointer"}} onClick={() => openEditModal(todo)}>
                     <i><h5>{todo.task}</h5></i>
                   </div>
-                  <div style={{height: "100%", color: "rgba(245, 245, 245, 0.822)", marginLeft: "4px"}}>
-                    {"Created On: " + todo.createdOn}
+                  <div style={{height: "100%", color: "rgba(245, 245, 245, 0.822)"}}>
+                    {"Created on: " + todo.createdOn}
                   </div>
                 </div>
               </div>
@@ -362,7 +362,7 @@ const Todo = () => {
             <div key={index} className='rounded m-2 p-1 row text-white' style={{backgroundColor: todo.completed ? "#5E1B89" : "transparent", 
             border: todo.completed ? "solid white 1px" : "solid white 2px", textAlign: "left"}}>
 
-              <div className='me-auto col-sm-8 text-uppercase letter-spacing' style={{alignContent: "center"}}>
+              <div className='me-auto col-sm-8 letter-spacing' style={{alignContent: "center"}}>
                 <i className= {"me-2 h5" + (todo.completed ? "bi bi-check-square-fill" : "bi bi-square")} 
                 style={{cursor: "pointer", fontStyle: "normal", 
                 textDecoration: todo.completed ? "line-through" : "none"}} 
@@ -372,11 +372,11 @@ const Todo = () => {
               <div className="d-grid col-sm-4" style={{height: "100%", gridTemplateRows: "50% 50%", fontSize: "12px", 
                 textAlign: "left", justifyContent: "end"}}>
                 <div style={{width: "100%"}}>
-                  {"Created On: " + todo.createdOn}
+                  {"Created on: " + todo.createdOn}
                 </div>
 
                 <div style={{width: "100%"}}>
-                  {"Completed On: " + todo.completedOn}
+                  {"Completed on: " + todo.completedOn}
                 </div>
           
               </div>     
