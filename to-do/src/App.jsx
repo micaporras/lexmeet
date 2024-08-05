@@ -16,7 +16,7 @@ function App() {
         {/* Footer */}
         <div className='position-relative bottom-0 mt-5 text-white text-center p-2' style={{borderTop: "solid white 3px"}}> 
           <div className='mt-2 mb-2'>
-            LexMeet, Inc.
+            LexMeet, Inc. 
           </div>
           
           <a className='text-white me-2' href="https://www.facebook.com/LexMeet" target="_blank"><i className="bi bi-facebook h5"></i></a>
