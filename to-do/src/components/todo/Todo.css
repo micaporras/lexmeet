@@ -222,14 +222,12 @@ i:hover {
     }
     
     .todo-item-icons {
-      text-align: right;
-      margin-top: 0.5rem;
+      text-align: center !important;
     }
 
     .todo-item-icons i {
       font-size: 14px;
       margin: 2px !important;
-      padding: 0;
     }
 
     .letter-spacing {
@@ -245,6 +243,11 @@ i:hover {
   @media (max-width: 389px) {
     .todo-item-details h5 {
       font-size: 14px;
+    }
+
+    .todo-item-icons i {
+      font-size: 12px;
+      margin: 2px !important;
     }
   }
 

@@ -335,7 +335,7 @@ const Todo = () => {
                   display: "grid", gridTemplateRows: "50% 40%", marginLeft: "1%", alignContent: "center"
                 }}>
                   <div className="todo-item-details" style={{height: "100%", cursor: "pointer"}} onClick={() => openDetailsModal(todo)}>
-                    <i><h5>{todo.task}</h5></i>
+                    <i><h5>{todo.task}</h5></i> 
                   </div>
                   <div className="todo-item-details" style={{height: "100%", color: "rgba(245, 245, 245, 0.822)"}}>
                     <div>{"Deadline: " + todo.deadlineOn}</div>
@@ -345,6 +345,7 @@ const Todo = () => {
               </div>
 
               <div className="todo-item-icons" style={{textAlign: "end", alignContent: "center"}}>
+                <i className="bi bi-info-circle me-2 h5" style={{cursor: "pointer"}} onClick={() => openDetailsModal(todo)}></i>
                 <i className="bi bi-pencil-square me-2 h5" style={{cursor: "pointer"}}  onClick={() => openEditModal(todo)}></i>
 
                 <i className="bi bi-trash3 h5 me-2" style={{cursor: "pointer"}} 
