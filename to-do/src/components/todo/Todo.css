@@ -111,7 +111,7 @@ i:hover {
     }
   
     .modal-body, .modal-footer {
-      font-size: 0.9rem;
+      font-size: 0.9rem !important;
     }
 
     .modal-fade .modal-content {

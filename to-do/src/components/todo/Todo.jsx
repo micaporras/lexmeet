@@ -455,7 +455,7 @@ const Todo = () => {
           <Modal.Title >Update Task</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <input type="text" className="form-control text-secondary mb-2" value={editTask.task} 
+          <input type="text" className="form-control text-secondary mb-2 fw-bold" value={editTask.task} 
           onChange={(e) => setEditTask({ ...editTask, task: e.target.value })} />
           <label className="text-secondary ms-1 me-2">Deadline</label>
           <DatePicker
