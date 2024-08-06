@@ -206,6 +206,13 @@ const Todo = () => {
   }
 
   function handleSaveTask() {
+    if (editTask.task.trim() === '') {
+      toast.error("Please input a task", {
+        icon: <i className="bi bi-exclamation-circle-fill h4" style={{color: "#F4512C"}}></i>,
+      })
+      return 
+    }
+
     let updatedTodos = todos.map(todo => 
         todo.task === editTaskOriginal.task ? { ...todo, task: editTask.task, deadlineOn: formatDate(editTask.deadlineOn) } : todo
     );
