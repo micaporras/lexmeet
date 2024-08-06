@@ -267,7 +267,7 @@ const Todo = () => {
       <ToastContainer />
       {/* The navbar */}
       <nav className="navbar navbar-expand-sm mb-4 row" style={{width: "100%"}}>
-        <div className="row m-1 me-0 pe-0">
+        <div className="row m-1 me-0 pe-0 w-100">
           <div className="navbar-brand text-white me-0 col-sm-7" style={{ textAlign: "center", fontWeight: "bold", 
           border: "solid white 2px", borderTopRightRadius: "10px", borderBottom: "transparent", position:"relative"}}>
             TODO LIST
@@ -275,7 +275,7 @@ const Todo = () => {
 
           <div className="collapse navbar-collapse col-sm-4 m-0 p-0" id="navbarSupportedContent" 
           style={{justifyContent: "start", borderBottom: "solid white 2px"}}>
-            <ul className="nav" style={{width: "100%", display: "grid", gridTemplateColumns: "50% 50%"}}>
+            <ul className="nav w-100" style={{width: "100%", display: "grid", gridTemplateColumns: "50% 50%"}}>
               <li className={`nav-item ${isCompleted=== false && 'active'}`} onClick={() => setCompleted(false)} style={{width: "100%"}}>
                 <a className="nav-link text-white" aria-current="page">All</a>
               </li>
@@ -286,8 +286,8 @@ const Todo = () => {
           </div>
           
           {/* The Add Task button */}
-          <div className="col-sm-1 pe-0" style={{alignContent: "center", justifyItems: "end"}}>
-              <button className="btn btn-outline-light p-0" style={{width: "100%"}} 
+          <div className="col-sm-1 pe-0 btn-add-task-container" style={{alignContent: "center", justifyItems: "end"}}>
+              <button className="btn btn-outline-light p-0 btn-add-task" style={{width: "100%"}} 
               onClick={() => setShowAddModal(true)} data-bs-toggle="tooltip" data-bs-placement="top" title="Add Task">
                 <i className="bi bi-plus h2"></i>
               </button>
@@ -321,7 +321,7 @@ const Todo = () => {
             border: todo.completed ? "solid white 1px" : "solid white 2px",
             color: "white", display: "grid", gridTemplateColumns: "80% 20%"}}>
 
-              <div className='me-auto' style={{width: "100%", display: "grid", gridTemplateColumns: "5% 93%", textDecoration: todo.completed ? "line-through" : "none"}}>
+              <div className='me-auto todo-item-content' style={{width: "100%", display: "grid", gridTemplateColumns: "5% 93%", textDecoration: todo.completed ? "line-through" : "none"}}>
                 <div style={{width: "100%", alignContent: "center"}}>
                   <i className= {"me-2 h5 " + (todo.completed ? "bi bi-check-square-fill" : "bi bi-square")} style={{cursor: "pointer", 
                   fontStyle: "normal"}} 
@@ -331,7 +331,7 @@ const Todo = () => {
                 <div style={{fontSize: "12px", width: "100%", textAlign: "left",
                   display: "grid", gridTemplateRows: "50% 40%", marginLeft: "1%", alignContent: "center"
                 }}>
-                  <div style={{height: "100%", cursor: "pointer"}} onClick={() => openDetailsModal(todo)}>
+                  <div className="todo-item-details" style={{height: "100%", cursor: "pointer"}} onClick={() => openDetailsModal(todo)}>
                     <i><h5>{todo.task}</h5></i>
                   </div>
                   <div style={{height: "100%", color: "rgba(245, 245, 245, 0.822)"}}>
@@ -341,7 +341,7 @@ const Todo = () => {
                 </div>
               </div>
 
-              <div style={{textAlign: "end", alignContent: "center"}}>
+              <div className="todo-item-icons" style={{textAlign: "end", alignContent: "center"}}>
                 <i className="bi bi-pencil-square me-2 h5" style={{cursor: "pointer"}}  onClick={() => openEditModal(todo)}></i>
 
                 <i className="bi bi-trash3 h5 me-2" style={{cursor: "pointer"}} 

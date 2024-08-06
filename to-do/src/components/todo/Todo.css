@@ -56,4 +56,137 @@ i:hover {
     letter-spacing: 2px;
 }
 
+@media (max-width: 991px) {
+    .navbar-brand {
+      font-size: 1rem;
+      border: solid 1px white;
+      border-top-right-radius: 0px;
+      font-weight: 500;
+    }
+
+    .navbar-brand, .navbar-collapse, .btn-add-task-container {
+        width: 100%;
+    }
+
+    .nav-item {
+        font-size: 16px;
+        border-left: solid 1px white;
+        border-right: solid 1px white;
+        border-top: solid 1px white;
+        border-bottom: transparent;
+        border-top-left-radius: 0px;
+        border-top-right-radius: 0px;
+    }
+      
+    .nav {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .btn-add-task-container {
+        width: 100%;
+        margin-top: 1rem;
+        padding: 0;
+    }
+  
+    .task-list {
+      display: grid;
+      grid-template-columns: 70% 30%;
+    }
+  
+    .task-details .task-title {
+      font-size: 10px;
+    }
+  
+    .btn-outline-light {
+      font-size: 0.8rem;
+    }
+  
+    .modal-content {
+      padding: 10px;
+    }
+  
+    .modal-title {
+      font-size: 1rem;
+    }
+  
+    .modal-body, .modal-footer {
+      font-size: 0.9rem;
+    }
+}
+
+@media (min-width: 992px) {
+    .navbar-brand {
+      width: 58.3333%; /* col-sm-7 equivalent */
+    }
+    
+    .navbar-collapse {
+      width: 33.3333%; /* col-sm-4 equivalent */
+      display: grid;
+      grid-template-columns: 50% 50%;
+    }
+    
+    .btn-add-task-container {
+      width: 8.3333%; /* col-sm-1 equivalent */
+      text-align: end;
+    }
+}
+
+
+
+  @media (max-width: 575px) {
+    .navbar {
+      flex-direction: column;
+    }
+  
+    .navbar-brand,
+    .collapse.navbar-collapse,
+    .btn-add-task-container {
+      width: 100%;
+      text-align: center;
+      justify-content: center;
+      display: flex;
+    }
+
+    .nav-item {
+        font-size: 12px;
+    }
+
+  
+    .nav {
+      display: flex;
+      justify-content: space-around;
+      width: 100%;
+      text-align: center;
+    }
+  
+    .btn-add-task {
+      width: 100%;
+      margin-top: 0.5rem;
+    }
+
+    .todo-item {
+        grid-template-columns: 100%;
+      }
+    
+      .todo-item-content {
+        grid-template-columns: 10% 85%;
+        text-align: left;
+      }
+    
+      .todo-item-details {
+        grid-template-rows: 1fr 1fr;
+        margin-left: 1rem;
+      }
+
+      h5 {
+        font-size: 16px;
+      }
+    
+      .todo-item-icons {
+        text-align: right;
+        margin-top: 0.5rem;
+      }
+  }
+
 

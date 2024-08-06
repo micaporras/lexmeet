@@ -15,4 +15,18 @@ body::-webkit-scrollbar {
   display: none;
 }
 
+a:hover {
+  color: #5E1B89;
+}
+
+@media (max-width: 580px) {
+  #root {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    width: 100vw; /* Make the body take the full viewport width */
+    padding: 0;
+  }}
 
