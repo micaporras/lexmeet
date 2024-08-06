@@ -151,6 +151,9 @@ const Todo = () => {
         }
       }
     }
+    toast.success("Task Updated", {
+      icon: <i className="bi bi-hand-thumbs-up-fill h3" style={{color: "#5E1B89"}}></i>
+      })
   }
   
 
@@ -328,13 +331,13 @@ const Todo = () => {
                   onClick={() => changeTaskStatus(todo.task)}> </i> 
                 </div>
 
-                <div style={{fontSize: "12px", width: "100%", textAlign: "left",
+                <div className="todo-container" style={{fontSize: "12px", width: "100%", textAlign: "left",
                   display: "grid", gridTemplateRows: "50% 40%", marginLeft: "1%", alignContent: "center"
                 }}>
                   <div className="todo-item-details" style={{height: "100%", cursor: "pointer"}} onClick={() => openDetailsModal(todo)}>
                     <i><h5>{todo.task}</h5></i>
                   </div>
-                  <div style={{height: "100%", color: "rgba(245, 245, 245, 0.822)"}}>
+                  <div className="todo-item-details" style={{height: "100%", color: "rgba(245, 245, 245, 0.822)"}}>
                     <div>{"Deadline: " + todo.deadlineOn}</div>
                     
                   </div>
@@ -356,7 +359,7 @@ const Todo = () => {
       {
         isCompleted === true && completedTodos.map((todo, index) => {
           return (
-            <div key={index} className='rounded m-2 p-1 row text-white' style={{backgroundColor: todo.completed ? "#5E1B89" : "transparent", 
+            <div key={index} className='rounded m-2 p-1 row text-white todo-container1' style={{backgroundColor: todo.completed ? "#5E1B89" : "transparent", 
             border: todo.completed ? "solid white 1px" : "solid white 2px", textAlign: "left"}}>
 
               <div className='me-auto col-sm-8 letter-spacing' style={{alignContent: "center"}}>
@@ -366,7 +369,7 @@ const Todo = () => {
                 onClick={() => changeTaskStatus(todo.task)}> {todo.task}</i>
               </div>
                   
-              <div className="d-grid col-sm-4" style={{height: "100%", gridTemplateRows: "50% 50%", fontSize: "12px", 
+              <div className="d-grid col-sm-4 todo-item-details1" style={{height: "100%", gridTemplateRows: "50% 50%", fontSize: "12px", 
                 textAlign: "left", justifyContent: "end"}}>
                 <div style={{width: "100%"}}>
                   {"Created on: " + todo.createdOn}
@@ -380,6 +383,15 @@ const Todo = () => {
             </div>
           )})
       }
+
+      <div className="mt-4 position-relative">
+        <button className="btn btn-outline-light me-4 p-0" onClick={() => checkAll()} style={{width: "100px"}}>
+          <i className="bi bi-list-check h3"></i>
+        </button>
+        <button className="btn btn-outline-light p-1" style={{width: "100px"}} data-bs-toggle="modal" data-bs-target="#deleteAllModal">
+          <i className="bi bi-trash3 h5 p-1"></i> All
+        </button>
+      </div>
 
       {/* Modals */}
 
@@ -445,6 +457,7 @@ const Todo = () => {
         <Modal.Body>
           <input type="text" className="form-control text-secondary mb-2" value={editTask.task} 
           onChange={(e) => setEditTask({ ...editTask, task: e.target.value })} />
+          <label className="text-secondary ms-1 me-2">Deadline</label>
           <DatePicker
               selected={editTask.deadlineOn}
               onChange={(date) => setEditTask({ ...editTask, deadlineOn: date })}
@@ -470,15 +483,7 @@ const Todo = () => {
         </Modal.Footer>
       </Modal>
 
-      <div className="mt-4 position-relative">
-        <button className="btn btn-outline-light me-4 p-0" onClick={() => checkAll()} style={{width: "100px"}}>
-          <i className="bi bi-list-check h3"></i>
-        </button>
-        <button className="btn btn-outline-light p-1" style={{width: "100px"}} data-bs-toggle="modal" data-bs-target="#deleteAllModal">
-          <i className="bi bi-trash3 h5 p-1"></i> All
-        </button>
-            
-        <div className="modal fade text-secondary" id="deleteAllModal" tabindex="-1" aria-labelledby="deleteAllModalLabel" aria-hidden="true">
+      <div className="modal fade text-secondary modal-fade" id="deleteAllModal" tabindex="-1" aria-labelledby="deleteAllModalLabel" aria-hidden="true">
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
               <div className="modal-header">
@@ -497,7 +502,6 @@ const Todo = () => {
             </div>
           </div>
         </div>
-      </div>
 
     </div>    
   )

@@ -9,12 +9,12 @@ function App() {
     <div className='container my-4'> {/* The whole container */}
       {/* The LexMeet logo */}
       <div div className='mx-auto p-4' style={{width: "90%", backgroundColor: "transparent", border: "solid white 4px", borderRadius: "12px"}}>
-        <a href="https://lexmeet.com/" target="_blank"><img className="mb-3" src="logo1.png" style={{height:50, width:230, cursor: "pointer"}}/></a>
+        <a href="https://lexmeet.com/" target="_blank"><img className="mb-3 logo" src="logo1.png"/></a>
         
         <Todo /> 
 
         {/* Footer */}
-        <div className='position-relative bottom-0 mt-5 text-white text-center p-2' style={{borderTop: "solid white 3px"}}> 
+        <div className='position-relative bottom-0 mt-5 text-white text-center p-2 footer' style={{borderTop: "solid white 3px"}}> 
           <div className='mt-2 mb-2'>
             LexMeet, Inc. 
           </div>

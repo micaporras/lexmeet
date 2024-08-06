@@ -15,7 +15,13 @@ body::-webkit-scrollbar {
   display: none;
 }
 
-a:hover {
+.logo {
+  height: 50px;
+  width: 230px;
+  cursor: pointer;
+}
+
+a i:hover {
   color: #5E1B89;
 }
 
@@ -25,8 +31,24 @@ a:hover {
     margin: 0;
     padding: 0;
   }
+
   body {
     width: 100vw; /* Make the body take the full viewport width */
     padding: 0;
-  }}
+  }
+
+  .logo {
+    height: 35px;
+    width: 125px;
+  }
+
+  .footer{
+    font-size: 14px;
+  }
+
+  .footer a i{
+    font-size: 14px;
+  }
+
+}
 

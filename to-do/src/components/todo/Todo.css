@@ -60,7 +60,7 @@ i:hover {
     .navbar-brand {
       font-size: 1rem;
       border: solid 1px white;
-      border-top-right-radius: 0px;
+      border-top-right-radius: 0px !important;
       font-weight: 500;
     }
 
@@ -113,6 +113,19 @@ i:hover {
     .modal-body, .modal-footer {
       font-size: 0.9rem;
     }
+
+    .modal-fade .modal-content {
+      padding: 10px;
+    }
+
+    .modal-fade .modal-title {
+      font-size: 1rem;
+    }
+
+    .modal-fade .modal-body, .modal-footer {
+      font-size: 0.9rem;
+    }
+
 }
 
 @media (min-width: 992px) {
@@ -166,27 +179,73 @@ i:hover {
     }
 
     .todo-item {
-        grid-template-columns: 100%;
-      }
+      grid-template-columns: 100%;
+    }
     
-      .todo-item-content {
-        grid-template-columns: 10% 85%;
-        text-align: left;
-      }
-    
-      .todo-item-details {
-        grid-template-rows: 1fr 1fr;
-        margin-left: 1rem;
-      }
+    .todo-item-content {
+      grid-template-columns: 10% 85%;
+      text-align: left;
+      margin-left: 5px;
+    }
 
-      h5 {
-        font-size: 16px;
-      }
+    .todo-item-content i {
+      font-size: 14px;
+    }
     
-      .todo-item-icons {
-        text-align: right;
-        margin-top: 0.5rem;
-      }
+    .todo-item-details {
+      grid-template-rows: 1fr 1fr;
+      margin-left: 1rem;
+      font-size: smaller;
+    }
+
+    .todo-item-details1 {
+      font-size: 10px !important;
+      justify-content: left;
+      display: block !important;
+      width: 100%;
+      margin-top: 3px;
+      margin-bottom: 10px;
+    }
+
+    .todo-container1 {
+      display: grid;
+      grid-template-rows: 50% 50%;
+    }
+
+    .todo-item-details h5 {
+      font-size: 16px;
+    }
+
+    .todo-container {
+      display: grid;
+      grid-template-rows: 20% 60%;
+    }
+    
+    .todo-item-icons {
+      text-align: right;
+      margin-top: 0.5rem;
+    }
+
+    .todo-item-icons i {
+      font-size: 14px;
+      margin: 2px !important;
+      padding: 0;
+    }
+
+    .letter-spacing {
+      letter-spacing: 0px;
+    }
+
+    .letter-spacing i {
+      font-size: 14px;
+    }
+  
+  }
+
+  @media (max-width: 389px) {
+    .todo-item-details h5 {
+      font-size: 14px;
+    }
   }
 
 
