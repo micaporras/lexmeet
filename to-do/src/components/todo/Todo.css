@@ -218,7 +218,7 @@ i:hover {
 
     .todo-container {
       display: grid;
-      grid-template-rows: 20% 60%;
+      grid-template-rows: 70% 30% !important;
     }
     
     .todo-item-icons {
